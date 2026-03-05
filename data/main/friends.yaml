@@ -1,0 +1,45 @@
+friends:
+  - name: "凌莞"
+    alias: "Clansty Icaria"
+    url: "https://clansty.com/"
+    icon: "/clansty.webp"
+
+  - name: "御坂云见"
+    alias: "MisakaKumomi"
+    url: "https://misaka.org/"
+    icon: "/misaka.webp"
+
+  - name: "小島 みなこ"
+    alias: "Minakokojima"
+    url: "http://www.shuizilong.com/house/"
+    icon: "/dao.webp"
+
+  - name: "小洛灵"
+    alias: "RainbowBird"
+    url: "https://blog.luoling.moe"
+    icon: "/luoling.webp"
+
+  - name: "絢香猫"
+    alias: "Ayaka Neko"
+    url: "https://neko.ayaka.moe"
+    icon: "/ayaka.webp"
+
+  - name: "絢香音"
+    alias: "RizumuA3"
+    url: "https://x.com/RizumuA3"
+    icon: "/RizumuA3.webp"
+
+  - name: "扶苏"
+    alias: "yfusu"
+    url: "https://t.me/yifusuyi"
+    icon: "/fusu.webp"
+
+  - name: "草莓"
+    alias: "ปรียานันท์"
+    url: "https://www.instagram.com/priyanan_charoensuk?igsh=MTRhdWY4ZWt4cTVmYw%3D%3D&utm_source=qr"
+    icon: "/hochun.webp"
+
+  - name: "来骗来偷袭"
+    alias: "Rick Roll"
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    icon: "/rickroll.webp"

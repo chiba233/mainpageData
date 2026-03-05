@@ -1,0 +1,28 @@
+block:
+  - name_zh: "第一次吃雌二醇"
+    name_en: "First time taking medicine"
+    name_jp: "初めてE2を服用した日"
+    name_other: "踏入新世界大门"
+    photo: ""
+    time: "20161225"
+
+  - name_zh: "SRS手术"
+    name_en: "SRS Operation"
+    name_jp: "SRS 手術を終えたの日"
+    name_other: "srs"
+    photo: ""
+    time: "20220816"
+
+  - name_zh: "来到泰国"
+    name_en: "Moved to Thailand"
+    name_jp: "タイへ移住した日"
+    name_other: "也许是一种全新开始"
+    photo: ""
+    time: "20241115"
+
+  - name_zh: "布偶猫去世"
+    name_en: "I lost my child."
+    name_jp: "ラグドールが旅立った日"
+    name_other: "哎，她才不到三岁啊。"
+    photo: ""
+    time: "20240227"
