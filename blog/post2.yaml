@@ -1,6 +1,7 @@
 layout: "common"
 time: "20251225"
 id: "srs-info"
+pin: true
 title: "针对来咨询SRS的一些回答"
 blocks:
   - type: "text"
