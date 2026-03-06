@@ -15,11 +15,10 @@ blocks:
         - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
           spareUrl: "/data/blog/img/post3/home-laptop.png"
           desc: "yumeLog Home 桌面端预览"
-  - type: "image"
-    content:
-      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
-        spareUrl: "/data/blog/img/post3/home-laptop.png"
-        desc: "yumeLog Home 移动端预览"
+
+        - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
+          spareUrl: "/data/blog/img/post3/home-laptop.png"
+          desc: "yumeLog Home 移动端预览"
 
   - type: "text"
     content: |
@@ -36,8 +35,6 @@ blocks:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.png"
         spareUrl: "/data/blog/img/post3/blog-laptop.png"
         desc: "yumeLog Blog 桌面端预览"
-  - type: "image"
-    content:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.png"
         spareUrl: "/data/blog/img/post3/blog-phone.png"
         desc: "yumeLog Blog 移动端预览"
@@ -58,8 +55,6 @@ blocks:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.png"
         spareUrl: "/data/blog/img/post3/memory.png"
         desc: "纪念日预览"
-  - type: "image"
-    content:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/neko.png"
         spareUrl: "/data/blog/img/post3/neko.png"
         desc: "照片展示墙预览"
