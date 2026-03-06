@@ -1,7 +1,6 @@
 layout: "common"
 id: "yumeLog-intro"
 time: "20260306"
-pin: true
 title: "yumeLog：我写的极简高颜值 Vue 个人主页系统"
 blocks:
   - type: "text"
@@ -12,13 +11,13 @@ blocks:
 
   - type: "image"
     content:
-        - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
-          spareUrl: "/data/blog/img/post3/home-laptop.png"
-          desc: "yumeLog Home 桌面端预览"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
+        spareUrl: "/data/blog/img/post3/home-laptop.png"
+        desc: "yumeLog Home 桌面端预览"
 
-        - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
-          spareUrl: "/data/blog/img/post3/home-laptop.png"
-          desc: "yumeLog Home 移动端预览"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
+        spareUrl: "/data/blog/img/post3/home-laptop.png"
+        desc: "yumeLog Home 移动端预览"
 
   - type: "text"
     content: |
