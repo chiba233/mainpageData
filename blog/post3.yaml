@@ -12,9 +12,15 @@ blocks:
 
   - type: "image"
     content:
-        - src: "https://raw.githubusercontent.com/chiba233/YumeLog/refs/heads/master/demo/1.png"
-          spareUrl: "/demo/1.png"
-          desc: "yumeLog 首页预览"
+        - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/home-laptop.png"
+          spareUrl: "/data/blog/img/post3/home-laptop.png"
+          desc: "yumeLog Home 桌面端预览"
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/home-laptop.png"
+        spareUrl: "/data/blog/img/post3/home-laptop.png"
+        desc: "yumeLog Home 移动端预览"
+
   - type: "text"
     content: |
       $$center($$bold(为什么写这个项目？)$$)$$
@@ -24,6 +30,17 @@ blocks:
     content: |
       $$center($$bold(核心技术特点)$$)$$
       $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$underline(bold  underline  strike  center  link  thin)$$。而且支持 $$bold(无限嵌套)$$。
+
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/blog-laptop.png"
+        spareUrl: "/data/blog/img/post3/blog-laptop.png"
+        desc: "yumeLog Blog 桌面端预览"
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/blog-phone.png"
+        spareUrl: "/data/blog/img/post3/blog-phone.png"
+        desc: "yumeLog Blog 移动端预览"
 
   - type: "text"
     content: |
@@ -36,11 +53,26 @@ blocks:
   - type: "text"
     content: |
       $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统  多语言支持  纪念日时间线  友链展示  联系方式  照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/memory.png"
+        spareUrl: "/data/blog/img/post3/memory.png"
+        desc: "纪念日预览"
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/neko.png"
+        spareUrl: "/data/blog/img/post3/neko.png"
+        desc: "照片展示墙预览"
 
   - type: "text"
     content: |
       $$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$underline(段位  Rating  成绩列表)$$，数据来自 Aqua 服务器 API。
 
+  - type: "image"
+    content:
+      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/maimai.png"
+        spareUrl: "/data/blog/img/post3/maimai.png"
+        desc: "maimai成绩展示预览"
   - type: "text"
     content: |
       如果你也想搭建一个：$$bold(极简但高颜值的个人主页)$$，可以看看这个项目：$$link(https://github.com/chiba233/YumeLog | $$bold($$underline(GitHub 仓库地址)$$)$$)$$，如果觉得有意思的话。
