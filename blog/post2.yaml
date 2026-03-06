@@ -1,6 +1,6 @@
 layout: "common"
-time: "20251225"
 id: "srs-info"
+time: "20251225"
 pin: true
 title: "针对来咨询SRS的一些回答"
 blocks:
@@ -10,7 +10,7 @@ blocks:
   - type: "image"
     content:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/Certification.jpg
-        spareUrl: /blog/img/post2/Certification.jpg
+        spareUrl: /data/blog/img/post2/Certification.jpg
         desc: Milada米兰达整形医院授权书
   - type:
   - type: "text"
@@ -26,11 +26,11 @@ blocks:
   - type: "image"
     content:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/line.webp
-        spareUrl: /blog/img/post2/line.webp
+        spareUrl: /data/blog/img/post2/line.webp
         desc: LINE QR
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/wechat.webp
-        spareUrl: /blog/img/post2/wechat.webp
+        spareUrl: /data/blog/img/post2/wechat.webp
         desc: WeChat QR
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/qq.jpg
-        spareUrl: /blog/img/post2/qq.jpg
+        spareUrl: /data/blog/img/post2/qq.jpg
         desc: QQ QR
