@@ -1,5 +1,6 @@
 layout: "common"
 time: "20260106"
+id: "kunpeng-grub-fix"
 title: "鲲鹏920解决升级至debian12后panic"
 blocks:
   - type: "text"
