@@ -1,19 +1,19 @@
 img:
   - imgError: /cat/橘猫.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E6%A9%98%E7%8C%AB.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E6%A9%98%E7%8C%AB.webp
     imgName: 躺着的橘猫
   - imgError: /cat/奶子.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E5%A5%B6%E5%AD%90.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E5%A5%B6%E5%AD%90.webp
     imgName: 奶子
   - imgError: /cat/大狗.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E5%A4%A7%E7%8B%97.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E5%A4%A7%E7%8B%97.webp
     imgName: 大狗
   - imgError: /cat/三花.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E4%B8%89%E8%8A%B1.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E4%B8%89%E8%8A%B1.webp
     imgName: 三花
   - imgError: /cat/布偶.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E5%B8%83%E5%81%B6.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E4%B8%89%E8%8A%B1.webp
     imgName: 布偶
   - imgError: /cat/全家福.webp
-    img: https://raw.githubusercontent.com/chiba233/newMainpage/master/public/cat/%E5%85%A8%E5%AE%B6%E7%A6%8F.webp
+    img: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/cat/%E5%85%A8%E5%AE%B6%E7%A6%8F.webp
     imgName: 全家福一群猫
