@@ -15,8 +15,8 @@ blocks:
         spareUrl: "/data/blog/img/post3/home-laptop.png"
         desc: "yumeLog Home 桌面端预览"
 
-      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
-        spareUrl: "/data/blog/img/post3/home-laptop.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-phone.png"
+        spareUrl: "/data/blog/img/post3/home-phone.png"
         desc: "yumeLog Home 移动端预览"
 
   - type: "text"
