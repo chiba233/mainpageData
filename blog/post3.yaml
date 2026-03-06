@@ -12,12 +12,12 @@ blocks:
 
   - type: "image"
     content:
-        - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/home-laptop.png"
+        - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
           spareUrl: "/data/blog/img/post3/home-laptop.png"
           desc: "yumeLog Home 桌面端预览"
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/home-laptop.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.png"
         spareUrl: "/data/blog/img/post3/home-laptop.png"
         desc: "yumeLog Home 移动端预览"
 
@@ -33,12 +33,12 @@ blocks:
 
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/blog-laptop.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.png"
         spareUrl: "/data/blog/img/post3/blog-laptop.png"
         desc: "yumeLog Blog 桌面端预览"
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/blog-phone.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.png"
         spareUrl: "/data/blog/img/post3/blog-phone.png"
         desc: "yumeLog Blog 移动端预览"
 
@@ -55,12 +55,12 @@ blocks:
       $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统  多语言支持  纪念日时间线  友链展示  联系方式  照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/memory.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.png"
         spareUrl: "/data/blog/img/post3/memory.png"
         desc: "纪念日预览"
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/neko.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/neko.png"
         spareUrl: "/data/blog/img/post3/neko.png"
         desc: "照片展示墙预览"
 
@@ -70,7 +70,7 @@ blocks:
 
   - type: "image"
     content:
-      - src: "https://github.com/chiba233/mainpageData/blob/master/blog/img/post3/maimai.png"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/maimai.png"
         spareUrl: "/data/blog/img/post3/maimai.png"
         desc: "maimai成绩展示预览"
   - type: "text"
