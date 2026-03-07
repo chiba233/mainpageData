@@ -1,13 +1,13 @@
 layout: "common"
 id: "yumeLog-intro"
 time: "20260306"
-title: "yumeLog：我写的极简高颜值 Vue 个人主页系统"
+title: "YumeLog：我写的高颜值个性化主页系统"
 blocks:
   - type: "text"
     content: |
       最近我把自己的个人主页系统整理并开源了，项目名字叫做 $$bold(yumeLog)$$（ユメログ）。
       $$center($$bold(一个专门为个人主页打造的极简博客系统)$$)$$
-      项目基于 $$bold(Vue3 + TypeScript + NaiveUI)$$ 开发，目标不是做传统博客，而是做一个 $$underline(更像“个人数字名片”的网站)$$。GitHub 地址：$$link(https://github.com/chiba233/YumeLog | $$bold($$underline(点我查看项目仓库)$$)$$)$$
+      项目基于 $$bold(Vue3 + TypeScript + NaiveUI)$$ 开发，目标不是做传统博客，而是做一个 $$underline(更像“个人数字名片”的网站)$$。GitHub 地址：$$link(https://github.com/chiba233/YumeLog | $$bold(点我查看项目仓库)$$)$$
 
   - type: "image"
     content:
@@ -69,5 +69,5 @@ blocks:
         desc: "maimai成绩展示预览"
   - type: "text"
     content: |
-      如果你也想搭建一个：$$bold(极简但高颜值的个人主页)$$，可以看看这个项目：$$link(https://github.com/chiba233/YumeLog | $$bold($$underline(GitHub 仓库地址)$$)$$)$$，如果觉得有意思的话。
-      $$center($$bold(欢迎点个 Star ⭐)$$)$$
+      如果你也想搭建一个：$$bold(极简但高颜值的个人主页)$$，可以看看这个项目：$$link(https://github.com/chiba233/YumeLog | $$bold(GitHub 仓库地址)$$)$$，如果觉得有意思的话。
+      $$strike($$center($$bold(欢迎点个 Star ⭐)$$)$$)$$
