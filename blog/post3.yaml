@@ -27,7 +27,7 @@ blocks:
   - type: "text"
     content: |
       $$center($$bold(核心技术特点)$$)$$
-      $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$underline(bold  underline  strike  center  link  thin)$$。而且支持 $$bold(无限嵌套)$$。
+      $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin)$$。而且支持 $$bold(无限嵌套)$$。
 
   - type: "image"
     content:
