@@ -1,9 +1,0 @@
-blocks:
-  - type: "zh"
-    content: "你好，我是 星野-ホシノ　夢華-ユメカ"
-  - type: "en"
-    content: "Hi! I'm Hoshino-ホシノ Yumeka-ユメカ"
-  - type: "ja"
-    content: "初めて！『星野夢華』です"
-  - type: "other"
-    content: "Sorry Unknown Language!"
