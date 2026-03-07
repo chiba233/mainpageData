@@ -40,15 +40,15 @@ blocks:
 
   - type: "text"
     content: |
-      $$bold(YAML 内容驱动)$$：博客文章全部使用 YAML 编写，例如：$$underline(id / time / title / blocks)$$，每个文章由多个 $$bold(block)$$ 组成。支持： $$underline(文本块  图片块  多图片展示)$$。因为是纯数据驱动，所以：$$center($$bold(不需要数据库，也不需要后端)$$)$$
+      $$bold(YAML 内容驱动)$$：博客文章全部使用 YAML 编写，例如：$$code(id / time / title / blocks)$$，每个文章由多个 $$bold(block)$$ 组成。支持： $$underline(文本块  图片块  多图片展示)$$。因为是纯数据驱动，所以：$$center($$bold(不需要数据库，也不需要后端)$$)$$
 
   - type: "text"
     content: |
-      $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$underline(YAML  JSON  图片资源)$$，所以部署非常简单：$$underline(GitHub Pages  Cloudflare Pages  Vercel   Nginx)$$都可以直接部署。
+      $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$cod(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
 
   - type: "text"
     content: |
-      $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统  多语言支持  纪念日时间线  友链展示  联系方式  照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
+      $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统 多语言支持 纪念日时间线 友链展示 联系方式 照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
   - type: "image"
     content:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.png"
@@ -60,7 +60,7 @@ blocks:
 
   - type: "text"
     content: |
-      $$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$underline(段位  Rating  成绩列表)$$，数据来自 Aqua 服务器 API。
+      $$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$code(段位 Rating 成绩列表)$$，数据来自 Aqua 服务器 API。
 
   - type: "image"
     content:
