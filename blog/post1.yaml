@@ -7,9 +7,9 @@ blocks:
     content: "先介绍一下机器型号吧"
   - type: "text"
     content: |
-      $$center($$bold($$underline(华为擎云W510)$$)$$)$$
-      $$center($$bold($$underline(24 x HUAWEI Kunpeng 920 2426SK NULL CPU @ 2.6GHz)$$)$$)$$
-      $$center($$bold($$underline(32G DDR4 2400)$$)$$)$$
+      $$center($$code($$bold($$underline(华为擎云W510)$$)$$)$$)$$
+      $$center($$code($$bold($$underline(24 x HUAWEI Kunpeng 920 2426SK NULL CPU @ 2.6GHz)$$)$$)$$)$$
+      $$center($$code($$bold($$underline(32G DDR4 2400)$$)$$)$$)$$
 
   - type: "image"
     content:
@@ -41,5 +41,5 @@ blocks:
   - type: "text"
     content: |
       解决方案非常简单
-      $$underline(sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli)$$    //彻底禁用apt更新软件包后添加该文件
+      $$code($$underline(sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli)$$    //彻底禁用apt更新软件包后添加该文件)$$ 
       $$bold(添加一个占位文件到原本的位置,随后执行 update-grub 重启即可解决问题。)$$
