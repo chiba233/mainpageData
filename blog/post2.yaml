@@ -12,7 +12,6 @@ blocks:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/Certification.webp
         spareUrl: /data/blog/img/post2/Certification.webp
         desc: Milada米兰达整形医院授权书
-  - type:
   - type: "text"
     content: |
       我里同时接待$$code($$bold(Kamol,Pai,Milada,NUT,YANHEE,APS)$$)$$医院的服务，包括不限于SRS及医疗美容。支持陪护或预约手术。$$underline($$bold(注意:不同的医院可能会存在不同的中介费用。)$$)$$
