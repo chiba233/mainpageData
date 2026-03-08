@@ -1,15 +1,15 @@
 layout: "common"
 time: "20260106"
 id: "kunpeng-grub-fix"
-title: "鲲鹏920解决升级至debian12后panic"
+title: "解决鲲鹏920升级至debian12后Grub Panic"
 blocks:
   - type: "text"
     content: "先介绍一下机器型号吧"
   - type: "text"
     content: |
-      $$center($$code($$bold($$underline(华为擎云W510)$$)$$)$$)$$
-      $$center($$code($$bold($$underline(24 x HUAWEI Kunpeng 920 2426SK NULL CPU @ 2.6GHz)$$)$$)$$)$$
-      $$center($$code($$bold($$underline(32G DDR4 2400)$$)$$)$$)$$
+      $$info( System Info | $$center($$bold($$underline(华为擎云W510)$$)$$
+      $$bold($$underline(24 x HUAWEI Kunpeng 920 2426SK NULL CPU @ 2.6GHz)$$)$$
+      $$bold($$underline(32G DDR4 2400)$$)$$)$$)$$
 
   - type: "image"
     content:
@@ -29,7 +29,7 @@ blocks:
         desc: "/etc/grub.d/25_bli'文件"
   - type: "text"
     content: |
-      以下是chatGPT针对此文件为什么导致panic的介绍
+      以下是chatGPT针对此文件为什么导致panic的介绍：
   - type: "image"
     content:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post1/3.webp
@@ -40,6 +40,6 @@ blocks:
         desc: "GPT介绍2"
   - type: "text"
     content: |
-      解决方案非常简单
-      $$code(sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli    //彻底禁用apt更新软件包后添加该文件)$$ 
-      $$bold(添加一个占位文件到原本的位置,随后执行 $$code(update-grub)$$ 重启即可解决问题。)$$
+      解决方案非常简单：
+      $$info( Terminal | sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli    //彻底禁用apt更新软件包后添加该文件
+      $$bold(添加一个占位文件到原本的位置,随后执行 $$code(update-grub)$$ 重启即可解决问题。)$$)$$ 
