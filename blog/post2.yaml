@@ -1,5 +1,6 @@
 layout: "common"
 id: "srs-info"
+lang: "zh"
 time: "20251225"
 pin: true
 title: "针对来咨询SRS的一些回答"
