@@ -44,12 +44,12 @@ blocks:
         - type: "divider")$$
   - type: "image"
     content:
-     - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
-       spareUrl: "/data/blog/img/post3/blog-laptop.webp"
-       desc: "yumeLog Blog 桌面端预览"
-     - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.webp"
-       spareUrl: "/data/blog/img/post3/blog-phone.webp"
-       desc: "yumeLog Blog 移动端预览"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
+        spareUrl: "/data/blog/img/post3/blog-laptop.webp"
+        desc: "yumeLog Blog 桌面端预览"
+      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.webp"
+        spareUrl: "/data/blog/img/post3/blog-phone.webp"
+        desc: "yumeLog Blog 移动端预览"
 
   - type: "text"
     content: |
@@ -57,7 +57,7 @@ blocks:
 
   - type: "text"
     content: |
-      $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$cod(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
+      $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$code(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
 
   - type: "text"
     content: |
