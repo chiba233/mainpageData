@@ -16,6 +16,7 @@ blocks:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post1/1.webp
         spareUrl: /data/blog/img/post1/1.webp
         desc: "neofetch 信息"
+  - type: "divider"
   - type: "text"
     content: |
       我的设备因为是纯作为服务器使用所以原本显卡的位置插上了万兆网卡，那么$$strike(聪明的群友)$$肯定会问，不是还有一个pcie插槽吗，不幸的是也插上了nvme硬盘，因此一次搬家我不小心弄丢了原本的亮机卡，于是就进行这次无屏幕Debug。
@@ -38,6 +39,7 @@ blocks:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post1/4.webp
         spareUrl: /data/blog/img/post1/4.webp
         desc: "GPT介绍2"
+  - type: "divider"
   - type: "text"
     content: |
       解决方案非常简单：
