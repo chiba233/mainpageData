@@ -1,6 +1,7 @@
 layout: "common"
 id: "yumeLog-intro"
 time: "20260306"
+lang: "zh"
 title: "YumeLog：我写的高颜值个性化主页系统"
 blocks:
   - type: "text"
