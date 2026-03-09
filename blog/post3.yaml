@@ -23,20 +23,34 @@ blocks:
     content: |
       $$center($$bold(为什么写这个项目？)$$)$$
       我一直觉得大部分博客系统都存在几个问题：首先还是不符合我胃口，不是太好看。其次是比较重，大多需要后端，部署复杂，维护火葬场。个人信息展示能力很弱。所以我干脆自己写了一套系统：$$bold(一个完全静态的个人主页 + 博客系统)$$。没有后端，没有数据库，只需要托管静态文件即可运行。担心国内被劫持访问不了？没关系支持热备。
-
+  - type: "divider"
   - type: "text"
     content: |
       $$center($$bold(核心技术特点)$$)$$
-      $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin)$$。而且支持 $$bold(无限嵌套)$$。
-
+      $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
+      $$info(示例 yaml | id: "test"       # id为访问网页的地址host/blog/test
+      time: "20260106" # 年月日
+      pin: true        # pin值以将重要文章置顶
+      title: "test"    # 标题
+      blocks:          # block后为正文
+      - type: "text"
+      content: "这是测试文本"
+        # 3. 图像渲染块 (支持容灾备用链接)
+      - type: "image"
+        content:
+        - src: /background0.webp
+          spareUrl: /background0.webp
+          desc: "这是图片描述"
+      
+      )$$
   - type: "image"
     content:
-      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
-        spareUrl: "/data/blog/img/post3/blog-laptop.webp"
-        desc: "yumeLog Blog 桌面端预览"
-      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.webp"
-        spareUrl: "/data/blog/img/post3/blog-phone.webp"
-        desc: "yumeLog Blog 移动端预览"
+     - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
+       spareUrl: "/data/blog/img/post3/blog-laptop.webp"
+       desc: "yumeLog Blog 桌面端预览"
+     - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.webp"
+       spareUrl: "/data/blog/img/post3/blog-phone.webp"
+       desc: "yumeLog Blog 移动端预览"
 
   - type: "text"
     content: |
@@ -67,6 +81,7 @@ blocks:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/maimai.webp"
         spareUrl: "/data/blog/img/post3/maimai.webp"
         desc: "maimai成绩展示预览"
+  - type: "divider"
   - type: "text"
     content: |
       如果你也想搭建一个：$$bold(极简但高颜值的个人主页)$$，可以看看这个项目：$$link(https://github.com/chiba233/YumeLog | $$bold(GitHub 仓库地址)$$)$$，如果觉得有意思的话。
