@@ -33,15 +33,15 @@ blocks:
       pin: true        # pin值以将重要文章置顶
       title: "test"    # 标题
       blocks:          # block后为正文
-      - type: "text"
-      content: "这是测试文本"
-        # 3. 图像渲染块 (支持容灾备用链接)
-      - type: "image"
-        content:
-        - src: /background0.webp
-          spareUrl: /background0.webp
-          desc: "这是图片描述"
-      - type: "divider")$$
+        - type: "text"
+          content: "这是测试文本"
+      # 3. 图像渲染块 (支持容灾备用链接)
+        - type: "image"
+          content:
+          - src: /background0.webp
+            spareUrl: /background0.webp
+            desc: "这是图片描述"
+        - type: "divider")$$
   - type: "image"
     content:
      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
