@@ -1,5 +1,6 @@
 layout: "common"
 time: "20260106"
+lang: "zh"
 id: "kunpeng-grub-fix"
 title: "解决鲲鹏920升级至debian12后Grub Panic"
 blocks:
