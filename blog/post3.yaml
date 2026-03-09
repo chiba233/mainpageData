@@ -41,8 +41,7 @@ blocks:
         - src: /background0.webp
           spareUrl: /background0.webp
           desc: "这是图片描述"
-      
-      )$$
+      - type: "divider")$$
   - type: "image"
     content:
      - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
