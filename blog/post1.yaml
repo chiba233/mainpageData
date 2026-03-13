@@ -44,5 +44,8 @@ blocks:
   - type: "text"
     content: |
       解决方案非常简单：
-      $$info( Terminal | sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli    //彻底禁用apt更新软件包后添加该文件
+      $$raw-code(bash | 示例)%
+      # 彻底禁用apt更新软件包后添加该文件
+      sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli
+      %end$$
       $$bold(添加一个占位文件到原本的位置,随后执行 $$code(update-grub)$$ 重启即可解决问题。)$$)$$ 
