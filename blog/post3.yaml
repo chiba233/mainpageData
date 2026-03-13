@@ -29,7 +29,8 @@ blocks:
     content: |
       $$center($$bold(核心技术特点)$$)$$
       $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
-      $$info(示例 yaml | id: "test"       # id为访问网页的地址host/blog/test
+      $$raw-code(yaml | 示例 yaml)%
+      id: "test"       # id为访问网页的地址host/blog/test
       time: "20260106" # 年月日
       pin: true        # pin值以将重要文章置顶
       title: "test"    # 标题
@@ -42,7 +43,24 @@ blocks:
            - src: /background0.webp
              spareUrl: /background0.webp
              desc: "这是图片描述"
-        - type: "divider")$$
+        - type: "divider"
+      # 2. 极致嵌套文本块
+      - type: "text"
+        content: |
+          $$center($$bold($$underline(这是测试)$$)$$)$$
+          $$code(const a = ref(true))$$
+          $$info(typescript | const a = ref(true))$$
+          $$warning(error | 我去，原地爆炸了！
+          爆炸了)$$
+          $$warning(error | $$center(我去，原地爆炸了！这个有居中效果喵！
+          爆炸了)$$)$$
+          $$info(示例 yaml)%
+          此为raw，该内容下的所有格式都不会被解析
+          $$info(示例 yaml)%
+          此为raw，该内容下的所有格式都不会被解析
+          %end$$
+          %end$$
+      %end$$
   - type: "image"
     content:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp"
