@@ -1,0 +1,123 @@
+layout: "common"
+id: "srs-surgery-comparison"
+lang: "zh"
+time: "20260315"
+pin: false
+title: "SRS术式对比：皮瓣手术与结肠手术优缺点"
+blocks:
+  - type: "text"
+    content: |
+      在咨询 $$bold(SRS性别重置手术)$$ 时，很多人最常问的问题之一就是：
+
+      $$center($$bold(皮瓣手术 和 结肠手术 到底该怎么选？)$$)$$
+
+      两种术式在 $$bold(手术复杂度、恢复周期、阴道深度、护理难度)$$ 等方面都有明显区别。  
+      下面整理了一份较完整的 $$bold(优缺点对照参考)$$，帮助你理解两种术式的差异。
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$center($$bold(皮瓣手术（Penile Inversion）)$$)$$
+
+      $$bold(优点：)$$
+
+      1. 手术结构相对 $$bold(结肠手术更简单)$$。
+      2. $$bold(整体风险相对较低)$$，手术费用也更便宜，恢复速度通常更快。
+      3. $$bold(腹部不会留下疤痕)$$。
+      4. 如果手术失败或者阴道萎缩，仍然可以通过 $$bold(结肠术式进行二次修复)$$。
+
+      $$bold(缺点：)$$
+
+      1. 阴道深度取决于 $$bold(自身组织材料)$$。  
+      如果下体材料较少，阴道深度可能无法达到理想值。  
+      即使使用 $$bold(阴囊皮嫁接技术)$$，增加深度的能力仍然有限。
+
+      2. 皮瓣手术后一般会出现 $$bold(一定程度的萎缩)$$。  
+      萎缩程度取决于 $$bold(皮肤弹性)$$ 和 $$bold(术后通模具的坚持程度)$$。
+
+      3. 术后通常需要 $$bold(至少1年)$$ 每天 $$bold(早晚两次通模具)$$。  
+      即使以后没有性伴侣，也建议 $$bold(每天至少一次)$$ 维持阴道功能。
+
+      4. 在发生性行为时，皮瓣阴道通常需要 $$bold(使用润滑剂)$$ 才能正常进行。
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$center($$bold(结肠阴道手术（Colon Vaginoplasty）)$$)$$
+
+      $$bold(缺点：)$$
+
+      1. 手术复杂度较高，本质上相当于 $$bold(两台大型手术)$$：
+
+         - 肠道取肠并进行移植  
+         - 外阴结构再造  
+
+         因此 $$bold(风险更高，费用也更高)$$。
+
+      2. 对身体条件有一定要求，例如：
+
+         - $$bold(BMI超过25)$$ 可能无法进行手术  
+         - 有 $$bold(肠胃系统慢性疾病)$$ 的人也可能不适合
+
+      3. 手术前准备工作较多，$$bold(恢复周期较长)$$。  
+         尤其排便规律可能受到影响，有些人需要 $$bold(6个月甚至更长时间)$$ 恢复。  
+         如果肠道手术处理不够专业，还可能出现 $$bold(长期便秘)$$ 的问题。
+
+      4. 结肠阴道一般在 $$bold(阴道口内部几厘米位置)$$ 与结肠缝合。  
+         因此在 $$bold(通模具或性行为)$$ 时可能会感觉进入较紧。
+
+      5. 对于 $$underline(严重疤痕体质的人)$$ 需要特别谨慎。  
+         因为缝合处存在 $$bold(疤痕增生风险)$$，如果出现增生，在性行为时可能会产生明显疼痛。
+
+      6. 一些人反映，在性体验方面，经验较多的男性可能会感觉到 $$bold(阴道内部存在类似“环状结构”)$$（缝合口）。
+
+      7. 如果结肠手术失败，通常 $$bold(无法再次更换肠道进行阴道修复)$$。
+
+      8. 有部分人反映 $$bold(气味可能比较明显)$$。
+
+      9. 随着年龄增长，在重力影响下，内部器官可能出现 $$bold(下垂)$$。  
+         结肠阴道在极端情况下也可能发生 $$bold(脱垂)$$。
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(优点：)$$
+
+      1. 在正常情况下，结肠手术可以实现 $$bold(约17–20厘米)$$ 的阴道深度（具体取决于个人条件）。
+
+      2. 由于结肠本身可以分泌肠液，在性生活过程中通常 $$bold(不需要润滑剂)$$，  
+         相对来说 $$bold(更接近女性阴道的生理结构)$$。
+
+      3. 结肠阴道一般 $$bold(不会出现明显萎缩)$$。
+
+      4. 通模具通常比皮瓣术式 $$bold(稍微轻松一些)$$。  
+         不需要像皮瓣阴道那样一直顶到底部，只需要保持阴道口与接口通畅即可。
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$center($$bold(总结参考)$$)$$
+
+      $$bold(皮瓣手术)$$  
+      更适合希望 $$bold(风险较低、恢复较快、费用较低)$$ 的人群。
+
+      $$bold(结肠手术)$$  
+      更适合希望 $$bold(阴道深度更大、润滑更自然、不易萎缩)$$ 的人群。
+
+      实际选择仍然需要结合 $$bold(身体条件、医生建议以及个人需求)$$ 来决定。
+      $$info(提示 | $$center(如有其他疑问可以联系我们~)$$)$$
+  - type: "image"
+    content:
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/qq.webp
+        spareUrl: /data/blog/img/post2/qq.webp
+        desc: QQ QR
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/wechat.webp
+        spareUrl: /data/blog/img/post2/wechat.webp
+        desc: WeChat QR
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/line.webp
+        spareUrl: /data/blog/img/post2/line.webp
+        desc: LINE QR
