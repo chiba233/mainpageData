@@ -441,73 +441,210 @@ blocks:
 
       export const stripRichText = (text?: string): string => {
         if (!text) return "";
-
-        const SCAN_LIMIT = 600;
-        const OUTPUT_LIMIT = 150;
-
         let result = "";
         let i = 0;
-
-        while (i < Math.min(text.length, SCAN_LIMIT) && result.length < OUTPUT_LIMIT) {
+        while (i < text.length) {
+          let matched = false;
           if (text.startsWith(TAG_PREFIX, i)) {
             let j = i + TAG_PREFIX.length;
             while (j < text.length && isTagChar(text[j])) j++;
-
             if (text[j] === TAG_OPEN) {
+              const tagName = text.slice(i + TAG_PREFIX.length, j);
               let k = j + 1;
               let depth = 1;
-
               while (k < text.length && depth > 0) {
                 if (text[k] === TAG_OPEN) depth++;
                 else if (text[k] === TAG_CLOSE) depth--;
                 k++;
               }
-
               if (depth === 0) {
                 const closePos = k - 1;
-
-                // RAW
                 if (text.startsWith(RAW_OPEN, closePos)) {
                   const contentStart = closePos + RAW_OPEN.length;
-                  const end = text.indexOf(RAW_CLOSE, contentStart);
+                  let end = -1;
+                  let pos = contentStart;
+                  while (true) {
+                    pos = text.indexOf(RAW_CLOSE, pos);
+                    if (pos === -1) break;
+
+                    const before = pos === 0 || text[pos - 1] === "\n";
+                    const after =
+                      pos + RAW_CLOSE.length === text.length ||
+                      text[pos + RAW_CLOSE.length] === "\n" ||
+                      text.startsWith("\r\n", pos + RAW_CLOSE.length);
+                    if (before && after) {
+                      end = pos;
+                      break;
+                    }
+                    pos += RAW_CLOSE.length;
+                  }
 
                   if (end !== -1) {
-                    const content = text.slice(contentStart, end);
-                    const quota = OUTPUT_LIMIT - result.length;
-                    result += content.slice(0, quota);
+                    result += text.slice(contentStart, end);
                     i = end + RAW_CLOSE.length;
-                    continue;
-                  }
-                }
+                    if (text.startsWith("\r\n", i)) i += 2;
+                    else if (text[i] === "\n") i++;
 
-                // 普通标签
-                if (text.startsWith(END_TAG, closePos)) {
+                    matched = true;
+                  }
+                } else if (text.startsWith(END_TAG, closePos)) {
                   const inner = text.slice(j + 1, closePos);
-                  const strippedInner = stripRichText(inner);
-                  const quota = OUTPUT_LIMIT - result.length;
-                  result += strippedInner.slice(0, quota);
+                  result += stripRichText(inner);
                   i = closePos + END_TAG.length;
-                  continue;
+                  if (BLOCK_TYPES_SET.has(tagName as BlockType)) {
+                    if (text.startsWith("\r\n", i)) i += 2;
+                    else if (text[i] === "\n") i++;
+                  }
+                  matched = true;
                 }
               }
             }
           }
 
-          result += text[i];
-          i++;
+          if (!matched) {
+            result += text[i];
+            i++;
+          }
         }
-
-        return result.trim();
+        return result.replace(/[\r\n\t]+/g, " ").trim();
       };
       %end$$
   - type: "text"
     content: |
       $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$code(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
+      $$raw-code(json | url配置示例)%
+      {
+        "blog": {
+          "listUrl": "https://YOUR-LIST_URL",
+          "url": "https://YOUR_URL",
+          "spareUrl": "/YOUR_SPARE-URL",
+          "spareListUrl": "/YOUR_SPARE_LIST_URL"
+        },
+        "main": {
+          "url": "这里主要是你个人简介那堆东西的地址，就是在/public/data/main里的那堆东西，你当然也可以远程，但是丢服务器就行了",
+          "spareUrl": "/YOUR_SPARE-URL",
+          "listUrl": "/YOUR_SPARE_LIST_URL"
+        }
+      }
+      %end$$
 
   - type: "text"
     content: |
       $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统 多语言支持 纪念日时间线 友链展示 联系方式 照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
       $$bold(全融合的主题)$$: $$code(yumelog)$$本身会使用你在$$code(json)$$内配置的主题色来生成: 浅色及加深色供不同区域使用以增强美观度或可读性。
+      $$bold(友链展示说明)$$：$$code(socialLinks)$$内每个都可以删掉，删掉后ui会自动取消渲染该内容。$$code(platforms)$$里面正常情况下你不需要动。
+      $$raw-code(json | 友链展示)%
+      {
+        "socialLinks": {
+          "twitter": "https://x.com/HoshinoYumeka2",
+          "tron": "https://tronscan.org/#/address/TVB16jV3Jx2HTn9U1KjyBSN1u9MQ29FArs",
+          "areth": "https://arbiscan.io/address/0x3eb232c80307961795C1310374368834c25A41e6",
+          "eth": "https://etherscan.io/address/0x3eb232c80307961795C1310374368834c25A41e6",
+          "polygon": "https://polygonscan.com/address/0x3eb232c80307961795C1310374368834c25A41e6",
+          "bsc": "https://bscscan.com/address/0x3eb232c80307961795C1310374368834c25A41e6",
+          "solana": "https://solscan.io/account/CwmEwePc5TxyQG57e3f4WBufTvGFv264KAGfVRoSZd7V",
+          "telegram": "https://t.me/chiba2333",
+          "email": "mailto:qwq@qwwq@org",
+          "github": "https://github.com/chiba233"
+        },
+        "platforms": [
+          {
+            "id": "telegram",
+            "label": "Telegram",
+            "type": "link"
+          },
+          {
+            "id": "wechat",
+            "label": "WeChat",
+            "type": "modal"
+          },
+          {
+            "id": "line",
+            "label": "LINE",
+            "type": "modal"
+          },
+          {
+            "id": "email",
+            "label": "E-Mail",
+            "type": "link"
+          },
+          {
+            "id": "twitter",
+            "label": "Twitter",
+            "type": "link"
+          },
+          {
+            "id": "github",
+            "label": "GitHub",
+            "type": "link"
+          },
+          {
+            "id": "tron",
+            "label": "Tron",
+            "type": "link"
+          },
+          {
+            "id": "eth",
+            "label": "Ethereum",
+            "type": "link"
+          },
+          {
+            "id": "areth",
+            "label": "Arbitrum",
+            "type": "link"
+          },
+          {
+            "id": "bsc",
+            "label": "BSC-BNB",
+            "type": "link"
+          },
+          {
+            "id": "polygon",
+            "label": "Polygon",
+            "type": "link"
+          },
+          {
+            "id": "solana",
+            "label": "Solana",
+            "type": "link"
+          },
+          {
+            "id": "maimai",
+            "label": "maimai",
+            "type": "func"
+          },
+          {
+            "id": "cat",
+            "label": "cat",
+            "type": "func"
+          }
+        ]
+      }
+      %end$$
+      $$bold(From Now Time 模块)$$: 
+      $$raw-code(yaml | fromNow)%
+      fromNow: #起始块不能删
+        - time: "20161225" #时间
+          photo: "" #预留 还没做
+          names:
+            - type: "zh"
+              content: "你好"
+            - type: "en"
+              content: "Hello!"
+            - type: "ja"
+              content: "天気がいいから、散歩しましょう"
+            - type: "other"
+              content: "Hello!"
+              #请注意，自己的东西都得自己翻译
+      %end$$
+      $$bold(list.json配置)$$: 请注意，这必须是数组!
+      $$raw-code(json | list.json)%
+      [
+        "post1.yaml",
+        "post2.yaml",
+        "post3.yaml"
+      ]
+      %end$$
   - type: "image"
     content:
       - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.webp"
@@ -520,6 +657,13 @@ blocks:
   - type: "text"
     content: |
       $$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$code(段位 Rating 成绩列表)$$，数据来自 Aqua 服务器 API。
+      $$raw-code(json | maimai配置文件)%
+      {
+        "baseUrl": "aqua.server.com",
+        "aimeID": "1145141919810"
+      }
+      %end$$
+
 
   - type: "image"
     content:
