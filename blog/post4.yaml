@@ -1,0 +1,157 @@
+layout: "common"
+id: "srs-hospital-guide"
+lang: "zh"
+time: "20260315"
+title: "SRS性别重置手术医院推荐与术式对比"
+blocks:
+  - type: "text"
+    content: |
+      本文整理了一些在泰国进行 $$bold(SRS性别重置手术)$$ 常见咨询的医院及医生信息，供参考。
+
+      常见医院包括：$$code(PAI / Kamol / Milada / NUT / Yanhee / APS)$$。
+
+      不同医院的医生风格、术式和价格均有区别，建议根据自身需求选择。
+      
+      $$info(提示 | $$center(如有其他医院可以联系我们，我们可以帮您联系~
+      同时如果需要手术效果预览图也可以联系我们获取！)$$)$$
+
+  - type: "image"
+    content:
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/wechat.webp
+        spareUrl: /data/blog/img/post2/wechat.webp
+        desc: WeChat QR
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/line.webp
+        spareUrl: /data/blog/img/post2/line.webp
+        desc: LINE QR
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/qq.webp
+        spareUrl: /data/blog/img/post2/qq.webp
+        desc: QQ QR
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(PAI 医院)$$
+
+      推荐医生：$$bold(布林医生)$$
+
+      优点：
+      - $$bold(皮瓣手术满意度高)$$
+      - 阴道深度通常可以达到个人条件的$$bold(极限深度)$$
+      - $$bold(敏感度较高)$$
+
+      可能的缺点：
+      - 对于部分条件受限的人，$$underline(疤痕可能稍长)$$
+      - 手术费用相对较高
+
+      参考价格：
+      $$code(皮瓣：11000 USD)$$
+      $$code(乙状结肠：18000 美元)$$
+      $$code(乙状结肠（腹腔镜）22000 美元)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(Kamol 医院)$$
+
+      推荐医生：$$bold(咖蒙医生)$$
+
+      特点：
+      - $$bold(结肠型手术经验丰富)$$
+      - 深度与外观表现良好
+      - 结肠术式在该医院$$bold(术后便秘等后遗症较少)$$
+
+      说明：
+      外观结构原理基本一致，不同术式主要区别在$$bold(阴道内部材料)$$。
+
+      术式建议：
+      - 如果自身组织材料不足，可考虑$$bold(肠瓣)$$
+      - 如果本身体味较重，一般$$underline(不建议结肠型)$$
+
+      参考价格：
+      $$code(皮瓣：346500 THB)$$
+      $$code(皮肤移植皮瓣：399000 THB)$$
+      $$code(普通结肠型：514500 THB)$$
+      $$code(腹腔镜结肠型：628950 THB)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(Milada 医院)$$
+
+      推荐医生：$$bold(Greechart 医生)$$（前 Yanhee 外科主任）
+
+      特点：
+      - 如果希望$$bold(无阴道深度手术)$$可以优先考虑
+      - 价格相对较便宜
+      - 外观效果稳定
+      - $$bold(术后护理较容易)$$
+
+      参考价格：
+      $$code(零深度：280000 THB)$$
+      $$code(皮瓣：320000 THB)$$
+      $$code(结肠型：450000 THB)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(NUT 医生)$$
+
+      特点：
+      - 手术费用在各医院中$$bold(相对最低)$$
+      - 术后恢复期饮食限制较严格
+      - 出院前一天才可以进食，且$$bold(只能流食)$$
+
+      参考价格：
+      $$code(皮瓣：240000 THB)$$
+      $$code(零深度：180000 THB)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(Yanhee 医院)$$
+
+      参考价格：
+
+      $$code(皮瓣：420000 THB)$$
+      $$code(结肠型：580000 THB)$$
+      $$code(微创结肠：820000 THB)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$bold(APS 医院)$$
+
+      推荐医生：$$bold(Dr.AE)$$
+
+      参考价格：
+
+      $$code(皮瓣：288000 THB)$$
+      $$code(结肠型：399000 THB)$$
+      $$code(零深度：200000 THB)$$
+      $$code(腹腔镜结肠：500000 THB)$$
+      $$code(PPV：560000 THB)$$
+
+  - type: "divider"
+
+  - type: "text"
+    content: |
+      $$center($$bold(手术术式对比)$$)$$
+
+      $$bold(安全性)$$  
+      无阴道深度 ＞ 皮瓣 ＞ 结肠
+
+      $$bold(恢复与护理难度)$$  
+      无阴道深度 ＞ 皮瓣 ＞ 结肠
+
+      $$bold(外观)$$  
+      不同术式外观基本$$bold(没有明显区别)$$，结构原理一致，主要区别在于$$bold(阴道内部材料)$$。
+
+      $$bold(性功能)$$  
+      零深度：$$underline(无法进行阴道性生活)$$  
+      其他术式：体验差异主要取决于$$bold(个人恢复情况)$$。
