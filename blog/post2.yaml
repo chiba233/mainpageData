@@ -13,6 +13,9 @@ blocks:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/Certification.webp
         spareUrl: /data/blog/img/post2/Certification.webp
         desc: Milada米兰达整形医院授权书
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/2.jpg
+        spareUrl: /data/blog/img/post2/1.jpg
+        desc: 饲养三花猫证明图
   - type: "text"
     content: |
       我这里同时接待$$code($$bold(Kamol,Pai,Milada,NUT,YANHEE,APS)$$)$$医院的服务，包括不限于SRS及医疗美容。支持陪护或预约手术。$$underline($$bold(注意:不同的医院可能会存在不同的中介费用。)$$)$$
@@ -22,6 +25,13 @@ blocks:
     content: |
       首先你需要保证你$$bold(必须满18周岁)$$，满足基本条件后，如果你没有家长同意书，你的可手术年龄为$$bold(20周岁)$$,这是因为泰国成年年龄为20周岁。如果你有家长同意书，那么你需要提供$$bold(家长签署的授权书)$$以支持你进行手术。
       预约手术前，你必须知道：$$bold(手术是不可逆的)$$，因此我们推荐手术前 $$bold(HRT满1年)$$。赴泰手术如果你拥有中国诊断证书，建议$$bold(携带翻译好的诊断书原件)$$。
+  - type: "image"
+    content:
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/2.jpg
+        spareUrl: /data/blog/img/post2/2.jpg
+        desc: 厉不厉害你黑猫
+  - type: "text"
+    content: |
       关于价格，目前各家医院大致都在$$bold(35万泰铢上下)$$，推荐额外携带$$bold(2万泰铢现金)$$以及$$bold(万事达和visa卡片)$$以保证生活费可以cover，你大致需要留在泰国$$bold(20天)$$。
       请注意，入境前请填写泰国入境卡片：$$link(https://tdac.immigration.go.th/arrival-card/#/home | $$bold(点我进入泰国入境申报页面)$$)$$。
       $$warning( ⚠ 特别注意 ⚠  | $$center($$bold(本卡片为入境必要手续，请务必提前填写，否则将被拒绝入境处理！
