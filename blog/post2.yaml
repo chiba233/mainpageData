@@ -13,7 +13,7 @@ blocks:
       - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/Certification.webp
         spareUrl: /data/blog/img/post2/Certification.webp
         desc: Milada米兰达整形医院授权书
-      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/2.jpg
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post2/1.jpg
         spareUrl: /data/blog/img/post2/1.jpg
         desc: 饲养三花猫证明图
   - type: "text"
