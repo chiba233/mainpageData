@@ -659,11 +659,11 @@ $$raw-code(json | list.json)%
 
 @image
 - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.webp"
-- spareUrl: "/data/blog/img/post3/memory.webp"
-- desc: "纪念日预览"
+  spareUrl: "/data/blog/img/post3/memory.webp"
+  desc: "纪念日预览"
 - src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/neko.webp"
-- spareUrl: "/data/blog/img/post3/neko.webp"
-- desc: "照片展示墙预览"
+  spareUrl: "/data/blog/img/post3/neko.webp"
+  desc: "照片展示墙预览"
 @end
 
 @text
@@ -678,9 +678,8 @@ $$raw-code(json | maimai配置文件)%
 
 @image
 - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/maimai.webp
- spareUrl: /data/blog/img/post3/maimai.webp
- desc: "maimai成绩展示预览"
-
+  spareUrl: /data/blog/img/post3/maimai.webp
+  desc: "maimai成绩展示预览"
 @end
 
 @divider
