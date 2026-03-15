@@ -29,8 +29,8 @@ Maimai Module ---------- MaiMai DX AQUA API 接入
 
 @image
 - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.webp
- spareUrl: /data/blog/img/post3/home-laptop.webp
- desc: yumeLog Home 桌面端预览
+  spareUrl: /data/blog/img/post3/home-laptop.webp
+  desc: yumeLog Home 桌面端预览
 
 - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-phone.webp
   spareUrl: /data/blog/img/post3/home-phone.webp
