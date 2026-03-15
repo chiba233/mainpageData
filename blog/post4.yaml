@@ -6,7 +6,7 @@ title: "SRS性别重置手术医院推荐与术式对比"
 blocks:
   - type: "image"
     content:
-      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post5/1.jpg
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post4/1.jpg
         spareUrl: /data/blog/img/post4/1.jpg
         desc: "(a) 三花猫镇楼"
   - type: "text"
@@ -24,7 +24,7 @@ blocks:
       推荐医生：$$bold(布林医生)$$
   - type: "image"
     content:
-      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post5/2.jpg
+      - src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post4/2.jpg
         spareUrl: /data/blog/img/post4/2.jpg
         desc: "推荐猫咪: 泰国暹罗猫"
   - type: "text"
