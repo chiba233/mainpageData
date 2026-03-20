@@ -48,6 +48,7 @@ $$center($$bold(为什么写这个项目？)$$)$$
 @text
 $$center($$bold(核心技术特点)$$)$$
 $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
+$$collapse(点我进查看语法示例)*
 $$raw-code(text | 示例)%
 \@meta
 layout: common        # 布局模板
@@ -75,6 +76,7 @@ title: 曼谷的午后喵     # 文章标题
 - mixed: "\\\\\\" "         -->   \\"
 \@end
 %end$$
+*end$$
 @end
 
 @image
@@ -88,405 +90,11 @@ title: 曼谷的午后喵     # 文章标题
 
 @text
 $$bold(YAML 内容驱动)$$：博客文章全部使用 YAML 编写，例如：$$code(id / time / title / blocks)$$，每个文章由多个 $$bold(block)$$组成。支持：$$underline(文本块  图片块  多图片展示)$$。因为是纯数据驱动，所以：$$center($$bold(不需要数据库，也不需要后端)$$)$$
-$$raw-code(ts | 富文本解析器代码)%
-// noinspection DuplicatedCode
-
-import { $message } from "@/components/ts/msgUtils.ts";
-import commonI18n from "@/data/I18N/commonI18n.json";
-import { lang } from "@/components/ts/setupLang.ts";
-import { BLOCK_TYPES, BlockType, RICH_TYPES, RichType, TagHandler, TextToken } from "../../d.ts";
-
-type I18nMap = Record<string, string>;
-const TAG_PREFIX = "$$";
-const TAG_OPEN = "(";
-const TAG_CLOSE = ")";
-const TAG_DIVIDER = "|";
-const END_TAG = ")$$";
-const RAW_OPEN = ")%";
-const RAW_CLOSE = "%end$$";
-const ESCAPE_CHAR = "\\";
-
-const ESCAPABLE_CHARS = new Set(
-  [TAG_OPEN, TAG_CLOSE, TAG_DIVIDER, ESCAPE_CHAR]
-    .flatMap((str) => str.split(""))
-    .filter((char) => !/[a-zA-Z0-9]/.test(char))
-    .filter((char, i, self) => self.indexOf(char) === i),
-);
-
-const RICH_TYPE_SET: ReadonlySet<RichType> = new Set(RICH_TYPES);
-const BLOCK_TYPES_SET: ReadonlySet<BlockType> = new Set(BLOCK_TYPES);
-
-const isRichType = (tag: string): tag is RichType => RICH_TYPE_SET.has(tag as RichType);
-
-const isTagChar = (c: string) =>
-  (c >= "a" && c <= "z") ||
-  (c >= "A" && c <= "Z") ||
-  (c >= "0" && c <= "9") ||
-  c === "_" ||
-  c === "-";
-
-const unescapeInline = (str: string): string => {
-  let result = "";
-  let i = 0;
-  while (i < str.length) {
-    if (str[i] === ESCAPE_CHAR && i + 1 < str.length && ESCAPABLE_CHARS.has(str[i + 1])) {
-      result += str[i + 1];
-      i += 2;
-      continue;
-    }
-    result += str[i++];
-  }
-  return result;
-};
-
-const readEscaped = (text: string, i: number): [string, number] => {
-  if (text[i] === ESCAPE_CHAR && i + 1 < text.length) {
-    const nextChar = text[i + 1];
-    if (ESCAPABLE_CHARS.has(nextChar)) {
-      return [ESCAPE_CHAR + nextChar, i + 2];
-    }
-  }
-  return [text[i], i + 1];
-};
-
-const findRawClose = (text: string, start: number): number => {
-  let pos = start;
-  while (pos < text.length) {
-    let lineEnd = text.indexOf("\n", pos);
-    if (lineEnd === -1) {
-      lineEnd = text.length;
-    } else if (lineEnd > pos && text[lineEnd - 1] === "\r") {
-      lineEnd--;
-    }
-    if (text.startsWith(RAW_CLOSE, pos) && pos + RAW_CLOSE.length === lineEnd) {
-      return pos;
-    }
-    pos = lineEnd + 1;
-  }
-  return -1;
-};
-
-const extractText = (tokens?: TextToken[]): string => {
-  if (!tokens?.length) return "";
-  return tokens.map((t) => (typeof t.value === "string" ? t.value : extractText(t.value))).join("");
-};
-
-const ALLOWED_LANGS = ["typescript", "bash", "json", "yaml", "vue", "html", "text"] as const;
-type SupportedLang = (typeof ALLOWED_LANGS)[number];
-const normalizeLang = (codeLang?: string): SupportedLang => {
-  const tsAliases = ["js", "javascript", "ts", "typescript"];
-  if (!codeLang) return "typescript";
-  const normalized = codeLang.trim().toLowerCase();
-  if (tsAliases.includes(normalized)) {
-    return "typescript";
-  }
-  if (!(ALLOWED_LANGS as unknown as string[]).includes(normalized)) {
-    const unsupportedCodeLanguage = commonI18n.unsupportedCodeLanguage as I18nMap;
-    const unsupportedCodeLanguageMsg = (
-      unsupportedCodeLanguage[lang.value] || unsupportedCodeLanguage.en
-    ).replace("{language}", String(codeLang));
-    $message.error(unsupportedCodeLanguageMsg, true, 3000);
-    return "text";
-  }
-  return normalized as SupportedLang;
-};
-
-const splitTokensByPipe = (tokens: TextToken[]): TextToken[][] => {
-  const parts: TextToken[][] = [[]];
-
-  for (const token of tokens) {
-    if (token.type !== "text" || typeof token.value !== "string") {
-      parts[parts.length - 1].push(token);
-      continue;
-    }
-
-    let buffer = "";
-    let i = 0;
-    const val = token.value;
-
-    const flushText = () => {
-      if (buffer) {
-        parts[parts.length - 1].push({ type: "text", value: buffer });
-        buffer = "";
-      }
-    };
-
-    while (i < val.length) {
-      if (val[i] === ESCAPE_CHAR && i + 1 < val.length) {
-        buffer += ESCAPE_CHAR + val[i + 1];
-        i += 2;
-        continue;
-      }
-
-      if (val[i] === TAG_DIVIDER) {
-        flushText();
-
-        parts.push([]);
-        i++;
-        while (i < val.length && val[i] === " ") i++;
-        continue;
-      }
-
-      buffer += val[i];
-      i++;
-    }
-
-    flushText();
-  }
-  return parts;
-};
-
-const TAG_HANDLERS: Record<string, TagHandler> = {
-  link: {
-    inline: (tokens) => {
-      const parts = splitTokensByPipe(tokens);
-      const titlePart = parts.shift() ?? [];
-      return {
-        type: "link",
-        url: unescapeInline(extractText(titlePart)).trim(),
-        value: parts.length ? parts.flat() : titlePart,
-      };
-    },
-  },
-  info: {
-    inline: (tokens) => {
-      const parts = splitTokensByPipe(tokens);
-      if (parts.length === 1) return { type: "info", title: "Info:", value: parts[0] };
-      const titlePart = parts.shift() ?? [];
-      return {
-        type: "info",
-        title: unescapeInline(extractText(titlePart)).trim(),
-        value: parts.flat(),
-      };
-    },
-    raw: (title, content) => ({
-      type: "info",
-      title: title || "Info:",
-      value: [{ type: "text", value: content }],
-    }),
-  },
-  warning: {
-    inline: (tokens) => {
-      const parts = splitTokensByPipe(tokens);
-      if (parts.length === 1) return { type: "warning", title: "Warning:", value: parts[0] };
-      const titlePart = parts.shift() ?? [];
-      return {
-        type: "warning",
-        title: unescapeInline(extractText(titlePart)).trim(),
-        value: parts.flat(),
-      };
-    },
-    raw: (title, content) => ({
-      type: "warning",
-      title: title || "Warning:",
-      value: [{ type: "text", value: content }],
-    }),
-  },
-  "raw-code": {
-    raw: (arg, content) => {
-      const parts = splitTokensByPipe([{ type: "text", value: arg ?? "" }]);
-      const codeLang = normalizeLang(unescapeInline(extractText(parts[0] ?? [])).trim());
-      const title = unescapeInline(extractText(parts[1] ?? [])).trim();
-      const label = unescapeInline(extractText(parts[2] ?? [])).trim();
-      return { type: "raw-code", codeLang, title: title || "Code:", label, value: content.trim() };
-    },
-  },
-};
-
-const unescapeAST = (tokens: TextToken[]): TextToken[] => {
-  return tokens.map((t) => {
-    if (t.type === "text" && typeof t.value === "string") {
-      return { ...t, value: unescapeInline(t.value) };
-    }
-    if (Array.isArray(t.value)) {
-      return { ...t, value: unescapeAST(t.value) };
-    }
-    return t;
-  });
-};
-export const parseRichText = (text: string, depthLimit = 50, silent = false): TextToken[] => {
-  if (!text) return [];
-
-  const root: TextToken[] = [];
-  const stack: { tag: string; tokens: TextToken[] }[] = [];
-
-  let ignoredDepth = 0;
-  let buffer = "";
-  let i = 0;
-
-  const current = () => (stack.length ? stack[stack.length - 1].tokens : root);
-
-  const pushText = (str: string) => {
-    if (!str) return;
-    const tokens = current();
-    const last = tokens[tokens.length - 1];
-    if (last?.type === "text" && typeof last.value === "string") {
-      last.value += str;
-    } else {
-      tokens.push({ type: "text", value: str });
-    }
-  };
-
-  while (i < text.length) {
-    if (text.startsWith(TAG_PREFIX, i)) {
-      let j = i + TAG_PREFIX.length;
-      while (j < text.length && isTagChar(text[j])) j++;
-
-      if (text.startsWith(TAG_OPEN, j)) {
-        pushText(buffer);
-        buffer = "";
-
-        const tag = text.slice(i + TAG_PREFIX.length, j);
-        if (stack.length >= depthLimit || ignoredDepth > 0) {
-          if (stack.length === depthLimit && ignoredDepth === 0) {
-            const depthEntry = commonI18n.richTextDepthLimit as I18nMap;
-            const depthMsg = (depthEntry[lang.value] || depthEntry.en)
-              .replace("{depthLimit}", String(depthLimit))
-              .replace("{i}", String(i));
-            if (!silent) $message.error(depthMsg, true, 3000);
-          }
-          ignoredDepth++;
-          buffer += text.slice(i, j + TAG_OPEN.length);
-          i = j + TAG_OPEN.length;
-          continue;
-        }
-
-        const handler = TAG_HANDLERS[tag];
-        if (handler?.raw) {
-          let k = j + 1;
-          let depth = 1;
-          while (k < text.length && depth > 0) {
-            const ch = text[k];
-            if (ch === TAG_OPEN) depth++;
-            else if (ch === TAG_CLOSE) depth--;
-            k++;
-          }
-          if (depth !== 0) {
-            buffer += text.slice(i, j + TAG_OPEN.length);
-            i = j + TAG_OPEN.length;
-            continue;
-          }
-          k--;
-          if (k < text.length && text.startsWith(RAW_OPEN, k)) {
-            pushText(buffer);
-            buffer = "";
-            const arg = text.slice(j + 1, k).trim();
-            const contentStart = k + RAW_OPEN.length;
-            const end = findRawClose(text, contentStart);
-            if (end === -1) {
-              const rawEntry = commonI18n.richTextRawNotClosed as I18nMap;
-              const rawMsg = (rawEntry[lang.value] || rawEntry.en).replace("{i}", String(i));
-              if (!silent) $message.error(rawMsg, true, 3000);
-              buffer += text.slice(i, k + RAW_OPEN.length);
-              i = k + RAW_OPEN.length;
-              continue;
-            }
-            const content = text
-              .slice(contentStart, end)
-              .split(ESCAPE_CHAR + RAW_CLOSE)
-              .join(RAW_CLOSE);
-            current().push(handler.raw(arg, content));
-            i = end + RAW_CLOSE.length;
-            if (text.startsWith("\r\n", i)) i += 2;
-            else if (text[i] === "\n") i++;
-            continue;
-          }
-        }
-
-        stack.push({ tag, tokens: [] });
-        i = j + TAG_OPEN.length;
-        continue;
-      }
-    }
-
-    if (text.startsWith(END_TAG, i)) {
-      if (ignoredDepth > 0) {
-        ignoredDepth--;
-        buffer += END_TAG;
-        i += END_TAG.length;
-        continue;
-      }
-      if (stack.length === 0) {
-        const closeEntry = commonI18n.richTextUnexpectedClose as I18nMap;
-        const closeMsg = (closeEntry[lang.value] || closeEntry.en).replace("{i}", String(i));
-        if (!silent) $message.error(closeMsg, true, 3000);
-
-        buffer += END_TAG;
-        i += END_TAG.length;
-        continue;
-      }
-
-      pushText(buffer);
-      buffer = "";
-      const node = stack.pop()!;
-
-      if (!isRichType(node.tag)) {
-        const richTextUnknownTag = commonI18n.richTextUnknownTag as I18nMap;
-        const richTextUnknownTagMsg = (richTextUnknownTag[lang.value] || richTextUnknownTag.en)
-          .replace("{tag}", String(node.tag))
-          .replace("{i}", String(i));
-        if (!silent) $message.error(richTextUnknownTagMsg, true, 3000);
-
-        node.tokens.forEach((t) => {
-          if (t.type === "text" && typeof t.value === "string") pushText(unescapeInline(t.value));
-          else current().push(t);
-        });
-      } else {
-        const handler = TAG_HANDLERS[node.tag];
-        current().push(
-          handler?.inline ? handler.inline(node.tokens) : { type: node.tag, value: node.tokens },
-        );
-      }
-
-      i += END_TAG.length;
-      if (BLOCK_TYPES_SET.has(node.tag as BlockType)) {
-        if (text.startsWith("\r\n", i)) i += 2;
-        else if (text[i] === "\n") i++;
-      }
-      continue;
-    }
-
-    if (text[i] === ESCAPE_CHAR && i + 1 < text.length) {
-      const [char, next] = readEscaped(text, i);
-      buffer += char;
-      i = next;
-      continue;
-    }
-
-    buffer += text[i];
-    i++;
-  }
-
-  pushText(buffer);
-
-  while (stack.length) {
-    const node = stack.pop()!;
-    const fallback = TAG_PREFIX + node.tag + TAG_OPEN;
-    const tokens = current();
-    const last = tokens[tokens.length - 1];
-
-    if (last?.type === "text" && typeof last.value === "string") {
-      last.value += fallback;
-    } else {
-      tokens.push({ type: "text", value: fallback });
-    }
-
-    tokens.push(...node.tokens);
-  }
-
-  return unescapeAST(root);
-};
-
-export const stripRichText = (text?: string): string => {
-  if (!text) return "";
-  const tokens = parseRichText(text, 50, true);
-  return extractText(tokens);
-};
-%end$$
 @end
 
 @text
 $$bold(完全静态架构)$$：所有数据都来自仓库文件：$$code(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
+$$collapse(点我进查看url配置示例)*
 $$raw-code(json | url配置示例)%
 {
   "blog": {
@@ -502,12 +110,14 @@ $$raw-code(json | url配置示例)%
   }
 }
 %end$$
+*end$$
 @end
 
 @text
 $$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统 多语言支持 纪念日时间线 友链展示 联系方式 照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
 $$bold(全融合的主题)$$: $$code(yumelog)$$本身会使用你在$$code(json)$$内配置的主题色来生成: 浅色及加深色供不同区域使用以增强美观度或可读性。
 $$bold(友链展示说明)$$：$$code(socialLinks)$$内每个都可以删掉，删掉后ui会自动取消渲染该内容。$$code(platforms)$$里面正常情况下你不需要动。
+$$collapse(点我进查看友链配置示例)*
 $$raw-code(json | 友链展示)%
 {
   "socialLinks": {
@@ -596,7 +206,9 @@ $$raw-code(json | 友链展示)%
   ]
 }
 %end$$
+*end$$
 $$bold(From Now Time 模块)$$:
+$$collapse(点我进查看From Now Time 模块配置示例)*
 $$raw-code(yaml | fromNow)%
 fromNow: #起始块不能删
   - time: "20161225" #时间
@@ -612,7 +224,9 @@ fromNow: #起始块不能删
         content: "Hello!"
         #请注意，自己的东西都得自己翻译
 %end$$
+*end$$
 $$bold(list.json配置)$$: 请注意，这必须是数组!
+$$collapse(点我进查看list.json配置示例)*
 $$raw-code(json | list.json)%
 [
   "post1.yaml",
@@ -620,6 +234,7 @@ $$raw-code(json | list.json)%
   "post3.yaml"
 ]
 %end$$
+*end$$
 @end
 
 @image
@@ -633,12 +248,14 @@ $$raw-code(json | list.json)%
 
 @text
 $$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$code(段位 Rating 成绩列表)$$，数据来自 Aqua 服务器 API。
+$$collapse(点我进查看maimai配置文件示例)*
 $$raw-code(json | maimai配置文件)%
 {
   "baseUrl": "aqua.server.com",
   "aimeID": "1145141919810"
 }
 %end$$
+*end$$
 @end
 
 @image
