@@ -3,22 +3,22 @@ layout: common
 time: 20260323
 lang: zh
 id: dsl-fallback-museum
-title: DSL 错误处理博物馆：欢迎来到魔性故障展厅
+title: DSL 错误处理博物馆：Fallback 机制实录
 @end
 
 @text
-这篇不是教你怎么$$bold(正确写 DSL)$$，而是专门拿来展示：$$underline(当你故意写出各种离谱错误时，这套解析器会怎么 fallback)$$。
-本文的结构全部固定为：
-$$info(阅读方法 | 上半块是原始源码，下半块是页面真正会显示出来的结果。也就是说，你看到的“显示结果”就是 fallback 之后用户实际会看到的东西。)$$
-$$center($$bold(欢迎来到 DSL 错误处理博物馆。请不要喂 parser。)$$)$$
+本文并非基础的 DSL 语法教程，而是为您展示一个特殊的场景：$$underline(当代码出现各种不规范或错误的语法时，这套解析器将如何进行优雅降级（Fallback）)。$$
+本文的结构统一为：
+$$info(阅读说明 | 上半块是原始源码，下半块是页面实际渲染的结果。也就是说，您看到的“显示结果”就是 Fallback 触发后，读者真正会看到的内容。)$$
+$$center($$bold(欢迎来到 DSL 错误处理博物馆。)$$)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(入馆前样板间：先看两段正常工作的 DSL)$$)$$
-先别急着看爆炸现场。为了方便对照，先给两段$$bold(语法完全正常)$$的例子，后面你就更容易看懂“哪里坏了”和“坏了以后怎么退化”。
+$$center($$bold(入馆前样板间：正常渲染对照组)$$)$$
+在进入故障展厅前，我们先看几段$$bold(语法完全正常)$$的示例。这有助于在后续对比中更容易看清“哪里出了问题”以及“出错后的退化形态”。
 @end
 
 @text
@@ -28,7 +28,7 @@ $$raw-code(text | Healthy Inline Demo)%
 %end$$
 $$bold(显示结果)$$
 今天的心情是 $$bold(很好)$$，也可以点开 $$link(https://example.com | 这个链接)$$。
-$$thin(说明：这是最普通的 inline 正常渲染，没有 fallback，也没有错误恢复。)$$
+$$thin(说明：这是基础的行内正常渲染，不涉及任何 Fallback 或错误恢复机制。)$$
 @end
 
 @text
@@ -38,7 +38,7 @@ $$info(正常示例 | 这一块标题和正文都合法)$$
 %end$$
 $$bold(显示结果)$$
 $$info(正常示例 | 这一块标题和正文都合法)$$
-$$thin(说明：标题类标签在参数完整时，会直接按预期渲染，不涉及默认标题或退化逻辑。)$$
+$$thin(说明：块级标签在参数完整时，会直接按预期渲染。)$$
 @end
 
 @text
@@ -50,7 +50,7 @@ $$raw-code(text | Healthy Date + FromNow Demo)%
 $$bold(显示结果)$$
 发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
 相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
-$$thin(说明：像 $$code(date)$$ 和 $$code(fromNow)$$ 这种“吃固定参数数量”的标签，在参数合法时会直接产出格式化后的文本。)$$
+$$thin(说明：对于要求“固定参数数量”的标签，只要参数合法，即会直接产出格式化后的文本。)$$
 @end
 
 @text
@@ -60,21 +60,21 @@ $$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也
 %end$$
 $$bold(显示结果)$$
 $$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也可以继续写 $$bold(加粗文本)$$。)$$
-$$thin(说明：$$code(collapse)$$ 在 inline 形态下也是“标题 | 正文”的标准双参数结构，正文里还能继续嵌套合法标签。)$$
+$$thin(说明：即便在内联形态下，只要语法合法，正文内依旧可以继续嵌套其他标签。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 1：未知标签不会爆炸，只会乖乖去壳)$$)$$
+$$center($$bold(展厅 1：遇到未知标签不会崩溃，只会安静“去壳”)$$)$$
 $$bold(源码)$$
 $$raw-code(text | Unknown Tag)%
 $$unknown(hello world)$$
 %end$$
 $$bold(显示结果)$$
 hello world
-$$thin(说明：未知标签不会作为正式语义节点渲染，但它内部的普通文本会被保留下来。)$$
+$$thin(说明：未知标签不会作为正式语义节点被渲染，但解析器会保留其内部的普通文本。)$$
 @end
 
 @text
@@ -84,14 +84,14 @@ $$unknown(hello $$bold(world)$$ and $$underline(stars)$$)$$
 %end$$
 $$bold(显示结果)$$
 hello $$bold(world)$$ and $$underline(stars)$$
-$$thin(说明：外壳 unknown 被剥掉，内部合法标签照样继续工作。)$$
+$$thin(说明：外层未知的标签壳被剥离，但内部嵌套的合法标签依然会正常工作。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 2：Inline 未闭合，直接退化成原始文本)$$)$$
+$$center($$bold(展厅 2：行内标签未闭合，直接退化为普通文本)$$)$$
 $$bold(源码)$$
 $$raw-code(text | Inline Not Closed)%
 $$bold(hello
@@ -101,7 +101,7 @@ $$bold(hello
 @end
 
 @text
-$$thin(说明：因为没有找到 \)，解析器不会硬猜，而是把这段东西当普通文本吐回去。)$$
+$$thin(说明：因为没有检测到闭合符 \)，解析器不会强行补全，而是将这段代码作为普通文本直接输出。)$$
 @end
 
 @text
@@ -111,7 +111,7 @@ $$link(https://example.com | Example
 %end$$
 $$bold(显示结果)$$
 $$link(https://example.com | Example
-$$thin(说明：不仅 fallback，而且会尽量保留原始开头片段，不会偷偷把参数吃掉。)$$
+$$thin(说明：发生退化时，解析器会尽量保留原始的开头片段，不会吞噬已输入的参数。)$$
 @end
 
 @text
@@ -121,14 +121,14 @@ $$link(https://example.com | before $$bold(ok)$$ tail
 %end$$
 $$bold(显示结果)$$
 $$link(https://example.com | before $$bold(ok)$$ tail
-$$thin(说明：外层 link 因为未闭合而退化为普通文本，但内部已经成功闭合的 $$code(bold)$$ 结果会被拼回最终文本。)$$
+$$thin(说明：外层标签因未闭合而退化，但内部已经成功闭合的标签内容会被完整保留并拼回最终文本。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 3：Raw / Block 真未闭合，整段退回原文)$$)$$
+$$center($$bold(展厅 3：块级标签未闭合，整段原样返回)$$)$$
 $$bold(源码)$$
 $$raw-code(text | Raw Not Closed)%
 $$raw-code(ts | cursed demo)%
@@ -139,7 +139,7 @@ $$bold(显示结果)$$
 $$raw-code(ts | cursed demo)%
 const a = 1
 const b = 2
-$$thin(说明：少了真正的 raw 结束行，这一整段不会假装成功解析。)$$
+$$thin(说明：缺少真正的结束行，整段内容将放弃解析，退化为普通文本。)$$
 @end
 
 @text
@@ -153,15 +153,15 @@ $$bold(显示结果)$$
 $$collapse(点我展开)*
 第一层
 第二层
-$$thin(说明：block 同理，没有找到真正的 $$code(*end$$)$$ 就直接当普通文本。)$$
+$$thin(说明：Block 同理，如果没有找到正确的 $$code(*end$$)$$，就会统一作为普通文本处理。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 4：看起来像 close，但格式不合法，会单独报 malformed close)$$)$$
-这部分是最近专门收紧过的逻辑：$$bold(不是所有“没闭合”都应该报 not closed)$$。如果你其实写了 close，只是$$underline(缩进错了 / trailing 脏了)$$，那就应该给独立语义。
+$$center($$bold(展厅 4：格式不规范的闭合（Malformed Close）)$$)$$
+这是近期专门收紧的一项逻辑：$$bold(并非所有的“没闭合”都该被粗暴归结为 Not closed)$$。如果您确实写了结束符，但出现了错误的缩进或携带了多余的尾随字符，系统会为其赋予独立的语义提示。
 @end
 
 @text
@@ -175,7 +175,7 @@ $$bold(显示结果)$$
 $$info(标题)*
 hello
   *end$$
-$$thin(说明：这一行不是合法 block close，因为前面多了空格。现在会 fallback，并上报 $$code(Malformed block close)$$，而不是胡乱报 $$code(Block not closed)$$。)$$
+$$thin(说明：这不是一个合法的闭合行，因为前面多出了空格。解析器会精准上报 $$code(Malformed block close)$$，而不是泛泛地提示未闭合。)$$
 @end
 
 @text
@@ -189,7 +189,7 @@ $$bold(显示结果)$$
 $$info(标题)*
 hello
 *end$$ extra cheese
-$$thin(说明：close 行必须独占整行，后面跟着垃圾尾巴也算 malformed，而不是 not closed。)$$
+$$thin(说明：闭合符必须独占整行。后面跟着其他字符同样会被判定为格式错误。)$$
 @end
 
 @text
@@ -203,7 +203,7 @@ $$bold(显示结果)$$
 $$raw-code(text | title)%
 hello
   %end$$
-$$thin(说明：raw close 也是一样，长得像 close 不代表它真的是 close。)$$
+$$thin(说明：Raw 标签的闭合逻辑也是一致的，外观相似并不等同于语法合法。)$$
 @end
 
 @text
@@ -217,14 +217,14 @@ $$bold(显示结果)$$
 $$raw-code(text | title)%
 hello
 %end$$ hahaha
-$$thin(说明：只要不是“整行完全等于 $$code(%end$$)$$”，就会被判成 malformed close。)$$
+$$thin(说明：只要该行不完全等于 $$code(%end$$)$$，就会触发 Malformed close。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 5：意外闭合符不会杀死后文)$$)$$
+$$center($$bold(展厅 5：意外的孤立闭合符不会阻断全局)$$)$$
 $$bold(源码)$$
 $$raw-code(text | Unexpected Close)%
 前面什么都没开
@@ -235,15 +235,15 @@ $$bold(显示结果)$$
 前面什么都没开
 )$$
 后面继续活着
-$$thin(说明：孤立的 $$code())$$ 不会让整篇文章坍缩，它会被保留下来，并且解析器继续往后跑。)$$
+$$thin(说明：孤立的右括号不会导致整篇文章解析失败，它会被当作普通字符保留，解析器会继续平稳处理后续内容。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 6：转义优先级比“看起来像语法”更高)$$)$$
-这部分展示的是：$$bold(只要你明确写了转义，解析器就按“字面字符”处理，不会再把它们误认成结束符或分隔符。)$$
+$$center($$bold(展厅 6：转义符拥有最高优先级)$$)$$
+这部分展示的是：$$bold(只要明确使用了转义符，解析器就会严格按“字面字符”处理，不再将其误判为结束符或分隔符。)$$
 @end
 
 @text
@@ -253,7 +253,7 @@ $$bold(这里有一个右括号 \))$$
 %end$$
 $$bold(显示结果)$$
 $$bold(这里有一个右括号 \))$$
-$$thin(说明：这里虽然看见了 )，但前面有反斜杠，所以它只是普通字符，不会拿去闭合标签。)$$
+$$thin(说明：遇到转义斜杠后，括号只作为普通文本渲染，不再承担闭合标签的功能。)$$
 @end
 
 @text
@@ -263,7 +263,7 @@ $$link(https://example.com \| still text)$$
 %end$$
 $$bold(显示结果)$$
 $$link(https://example.com \| still text)$$
-$$thin(说明：竖线被转义后，就不再承担“参数分隔”的语义，而只是原始文本的一部分。)$$
+$$thin(说明：竖线被转义后，取消了其“参数分隔”的语义，成为纯文本的一部分。)$$
 @end
 
 @text
@@ -279,15 +279,15 @@ $$raw-code(text | demo)%
 \%end$$
 真的结束要等下一行
 %end$$
-$$thin(说明：第一个 $$code(\%end$$)$$ 只是内容，真正的结束必须是后面那一行完整的 $$code(%end$$)$$。)$$
+$$thin(说明：带有转义符的 $$code(\%end$$)$$ 仅为正文内容，真正的解析结束取决于后续那行完整且干净的 $$code(%end$$)$$。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 7：坏输入之后，后文还能继续恢复)$$)$$
-不少 parser 一旦在中间摔一跤，后面的内容就全陪葬。但这里的策略是：$$bold(能恢复的地方继续恢复，别把整段都拖死。)$$
+$$center($$bold(展厅 7：局部错误后的自我恢复机制)$$)$$
+许多解析器在遇到中间段落错误时会直接中断，导致后续内容一并作废。但这里的策略是：$$bold(在能恢复的地方继续恢复，避免因局部错误拖垮整段内容。)$$
 @end
 
 @text
@@ -297,7 +297,7 @@ $$bold(bad) $$$$thin(good)$$
 %end$$
 $$bold(显示结果)$$
 $$bold(bad) $$$$thin(good)$$
-$$thin(说明：前面坏掉的那一截会原样吐回去，后面重新遇到合法起点时，解析器会继续正常解析。)$$
+$$thin(说明：前面失效的部分会原样输出，一旦后续遇到合法的语法起点，解析器会立即恢复正常工作。)$$
 @end
 
 @text
@@ -307,45 +307,45 @@ $$bold(unclosed $$thin(ok)$$ $$underline(good)$$
 %end$$
 $$bold(显示结果)$$
 $$bold(unclosed$$thin(ok)$$ $$underline(good)$$
-$$thin(说明：外层 $$code(bold)$$ 因为没闭合而退化，但里面已经成功闭合的合法标签仍然可以继续产出。)$$
+$$thin(说明：外层标签因未闭合而失效，但内部已经成功闭合的合法标签依然会正常产出结果。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 8：Malformed close 和 Not closed 不是一回事)$$)$$
-很多系统会把所有失败都报成“没闭合”，但这其实很偷懒。这里会刻意区分：
+$$center($$bold(展厅 8：精准区分 Malformed close 与 Not closed)$$)$$
+很多系统会将所有解析失败统称为“未闭合”，但这不利于精准排查问题。我们对此进行了严格区分：
 $$info(语义差异)*
-1. $$code(Not closed)$$ = 压根没找到合法 close
-2. $$code(Malformed close)$$ = 你其实写了一个“像 close 的东西”，但格式不合法
-3. 这两个错误给作者的修复提示完全不同，所以不该混在一起
+1. $$code(Not closed)$$ = 整体段落中完全没有找到合法的结束符。
+2. $$code(Malformed close)$$ = 存在结束符，但格式不规范（如多余的缩进或尾随字符）。
+3. 区分两者的目的是为了给内容创作者提供更准确的修复指引。
 *end$$
 @end
 
 @text
-$$bold(最直白的理解方式)$$
-$$warning(对照看 | 如果文件里完全没有 close，那就是 $$code(not closed)$$；如果有一行长得很像 close，但前面多空格、后面挂垃圾尾巴，那就是 $$code(malformed close)$$。)$$
-$$thin(说明：这个区分看起来细，但对排查真实内容错误很有用。否则作者只会看到“没闭合”，却不知道其实是 close 行格式写脏了。)$$
+$$bold(直观理解：)$$
+$$warning(排查指南 | 如果文档中确实没写 close，那就是 $$code(not closed)$$；如果写了，但多敲了空格或者加了其他字符，那就是 $$code(malformed close)$$。)$$
+$$thin(说明：这项区分对于排查长文档的排版错误非常有效，能帮助作者迅速定位是“漏写”还是“写错”。)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(展厅 9：支持 fallback，不代表你写得对)$$)$$
-很多系统遇到坏输入会直接炸掉，用户只能看到一地 500。这个 DSL 的设计思路不是“纵容错误”，而是：
-$$info(Fallback Philosophy)%
-1. 合法语义正常解析
-2. 非法语义尽量保留原始文本
-3. 能恢复后文时就继续恢复
-4. 错误类型尽量说人话，不要全都甩锅成 not closed
+$$center($$bold(结语：支持 Fallback 不代表纵容错误)$$)$$
+面对异常输入，许多系统的做法是直接报错阻断。而这套 DSL 的设计哲学并非为了纵容语法错误，而是确保：
+$$info(Fallback 核心原则)%
+1. 合法语义，完美解析。
+2. 非法语义，最大程度保留原始文本。
+3. 具备局部错误恢复能力，不引发全局崩溃。
+4. 提供精准、具体的错误类型提示，不推诿责任。
 %end$$
 @end
 
 @text
-$$bold(所以最终效果是：)$$
-$$warning(给作者看的 | 运行时会提示：unknown fallback / inline not closed / raw not closed / block not closed / malformed raw close / malformed block close / unexpected close 这些不同语义。)$$
-$$info(给读者看的 | 页面不会突然炸掉，大部分坏输入都会被原样或近似原样吐出来。)$$
-$$center($$bold(一句话总结：这玩意不是“严格到一碰就碎”，而是“你乱写它也尽量体面地活下去”。)$$)$$
+$$bold(最终呈现效果：)$$
+$$warning(对创作者 | 运行时会精准提示：unknown fallback / inline not closed / raw not closed / block not closed / malformed raw close / malformed block close / unexpected close 等具体语义。)$$
+$$info(对阅读者 | 页面不会因此崩溃，绝大部分异常输入都会被平稳地退化呈现。)$$
+$$center($$bold(一句话总结：这套系统的底线是，即使面临不规范的输入，也要尽可能体面地维持运转并呈现内容。)$$)$$
 @end
