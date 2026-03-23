@@ -1,0 +1,207 @@
+@meta
+layout: common
+time: 20260323
+lang: zh
+id: dsl-fallback-museum
+title: DSL 错误处理博物馆：欢迎来到魔性故障展厅
+@end
+
+@text
+这篇不是教你怎么$$bold(正确写 DSL)$$，而是专门拿来展示：$$underline(当你故意写出各种离谱错误时，这套解析器会怎么 fallback)$$。
+本文的结构全部固定为：
+$$info(阅读方法 | 上半块是原始源码，下半块是页面真正会显示出来的结果。也就是说，你看到的“显示结果”就是 fallback 之后用户实际会看到的东西。)$$
+$$center($$bold(欢迎来到 DSL 错误处理博物馆。请不要喂 parser。)$$)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 1：未知标签不会爆炸，只会乖乖去壳)$$)$$
+$$bold(源码)$$
+$$raw-code(text | Unknown Tag)%
+$$unknown(hello world)$$
+%end$$
+$$bold(显示结果)$$
+hello world
+$$thin(说明：未知标签不会作为正式语义节点渲染，但它内部的普通文本会被保留下来。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Unknown Tag + Nested Known Tag)%
+$$unknown(hello $$bold(world)$$ and $$underline(stars)$$)$$
+%end$$
+$$bold(显示结果)$$
+hello $$bold(world)$$ and $$underline(stars)$$
+$$thin(说明：外壳 unknown 被剥掉，内部合法标签照样继续工作。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 2：Inline 未闭合，直接退化成原始文本)$$)$$
+$$bold(源码)$$
+$$raw-code(text | Inline Not Closed)%
+$$bold(hello
+%end$$
+$$bold(显示结果)$$
+$$bold(hello
+$$thin(说明：因为没有找到 )$$，解析器不会硬猜，而是把这段东西当普通文本吐回去。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Inline Not Closed With Params)%
+$$link(https://example.com | Example
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com | Example
+$$thin(说明：不仅 fallback，而且会尽量保留原始开头片段，不会偷偷把参数吃掉。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Inline Opened, Nested, Then EOF)%
+$$link(https://example.com | before $$bold(ok)$$ tail
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com | before $$bold(ok)$$ tail
+$$thin(说明：外层 link 因为未闭合而退化为普通文本，但内部已经成功闭合的 $$code(bold)$$ 结果会被拼回最终文本。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 3：Raw / Block 真未闭合，整段退回原文)$$)$$
+$$bold(源码)$$
+$$raw-code(text | Raw Not Closed)%
+$$raw-code(ts | cursed demo)%
+const a = 1
+const b = 2
+%end$$
+$$bold(显示结果)$$
+$$raw-code(ts | cursed demo)%
+const a = 1
+const b = 2
+$$thin(说明：少了真正的 raw 结束行，这一整段不会假装成功解析。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Block Not Closed)%
+$$collapse(点我展开)*
+第一层
+第二层
+%end$$
+$$bold(显示结果)$$
+$$collapse(点我展开)*
+第一层
+第二层
+$$thin(说明：block 同理，没有找到真正的 $$code(*end$$)$$ 就直接当普通文本。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 4：看起来像 close，但格式不合法，会单独报 malformed close)$$)$$
+这部分是最近专门收紧过的逻辑：$$bold(不是所有“没闭合”都应该报 not closed)$$。如果你其实写了 close，只是$$underline(缩进错了 / trailing 脏了)$$，那就应该给独立语义。
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Block Close With Indent)%
+$$info(标题)*
+hello
+  *end$$
+%end$$
+$$bold(显示结果)$$
+$$info(标题)*
+hello
+  *end$$
+$$thin(说明：这一行不是合法 block close，因为前面多了空格。现在会 fallback，并上报 $$code(Malformed block close)$$，而不是胡乱报 $$code(Block not closed)$$。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Block Close With Trailing)%
+$$info(标题)*
+hello
+*end$$ extra cheese
+%end$$
+$$bold(显示结果)$$
+$$info(标题)*
+hello
+*end$$ extra cheese
+$$thin(说明：close 行必须独占整行，后面跟着垃圾尾巴也算 malformed，而不是 not closed。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Raw Close With Indent)%
+$$raw-code(text | title)%
+hello
+  %end$$
+%end$$
+$$bold(显示结果)$$
+$$raw-code(text | title)%
+hello
+  %end$$
+$$thin(说明：raw close 也是一样，长得像 close 不代表它真的是 close。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Raw Close With Trailing)%
+$$raw-code(text | title)%
+hello
+%end$$ hahaha
+%end$$
+$$bold(显示结果)$$
+$$raw-code(text | title)%
+hello
+%end$$ hahaha
+$$thin(说明：只要不是“整行完全等于 $$code(%end$$)$$”，就会被判成 malformed close。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 5：意外闭合符不会杀死后文)$$)$$
+$$bold(源码)$$
+$$raw-code(text | Unexpected Close)%
+前面什么都没开
+)$$
+后面继续活着
+%end$$
+$$bold(显示结果)$$
+前面什么都没开
+)$$
+后面继续活着
+$$thin(说明：孤立的 $$code())$$ 不会让整篇文章坍缩，它会被保留下来，并且解析器继续往后跑。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 6：支持 fallback，不代表你写得对)$$)$$
+很多系统遇到坏输入会直接炸掉，用户只能看到一地 500。这个 DSL 的设计思路不是“纵容错误”，而是：
+$$info(Fallback Philosophy)%
+1. 合法语义正常解析
+2. 非法语义尽量保留原始文本
+3. 能恢复后文时就继续恢复
+4. 错误类型尽量说人话，不要全都甩锅成 not closed
+%end$$
+@end
+
+@text
+$$bold(所以最终效果是：)$$
+$$warning(给作者看的 | 运行时会提示：unknown fallback / inline not closed / raw not closed / block not closed / malformed raw close / malformed block close / unexpected close 这些不同语义。)$$
+$$info(给读者看的 | 页面不会突然炸掉，大部分坏输入都会被原样或近似原样吐出来。)$$
+$$center($$bold(一句话总结：这玩意不是“严格到一碰就碎”，而是“你乱写它也尽量体面地活下去”。)$$)$$
+@end
