@@ -199,10 +199,10 @@ $$center($$bold(展厅 6：转义优先级比“看起来像语法”更高)$$)$
 @text
 $$bold(源码)$$
 $$raw-code(text | Escaped Right Parenthesis)%
-$$bold(这里有一个右括号 \))
+$$bold(这里有一个右括号 \))$$
 %end$$
 $$bold(显示结果)$$
-$$bold(这里有一个右括号 \))
+$$bold(这里有一个右括号 \))$$
 $$thin(说明：这里虽然看见了 )，但前面有反斜杠，所以它只是普通字符，不会拿去闭合标签。)$$
 @end
 
