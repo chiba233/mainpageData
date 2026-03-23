@@ -192,7 +192,100 @@ $$thin(说明：孤立的 $$code())$$ 不会让整篇文章坍缩，它会被保
 @end
 
 @text
-$$center($$bold(展厅 6：支持 fallback，不代表你写得对)$$)$$
+$$center($$bold(展厅 6：转义优先级比“看起来像语法”更高)$$)$$
+这部分展示的是：$$bold(只要你明确写了转义，解析器就按“字面字符”处理，不会再把它们误认成结束符或分隔符。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Escaped Right Parenthesis)%
+$$bold(这里有一个右括号 \))
+%end$$
+$$bold(显示结果)$$
+$$bold(这里有一个右括号 \))
+$$thin(说明：这里虽然看见了 )，但前面有反斜杠，所以它只是普通字符，不会拿去闭合标签。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Escaped Pipe)%
+$$link(https://example.com \| still text)
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com \| still text)
+$$thin(说明：竖线被转义后，就不再承担“参数分隔”的语义，而只是原始文本的一部分。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Escaped Raw Close)%
+$$raw-code(text | demo)%
+\%end$$
+真的结束要等下一行
+%end$$
+%end$$
+$$bold(显示结果)$$
+$$raw-code(text | demo)%
+\%end$$
+真的结束要等下一行
+%end$$
+$$thin(说明：第一个 $$code(\%end$$)$$ 只是内容，真正的结束必须是后面那一行完整的 $$code(%end$$)$$。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 7：坏输入之后，后文还能继续恢复)$$)$$
+不少 parser 一旦在中间摔一跤，后面的内容就全陪葬。但这里的策略是：$$bold(能恢复的地方继续恢复，别把整段都拖死。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Broken Then Good)%
+$$bold(bad) $$$$thin(good)$$
+%end$$
+$$bold(显示结果)$$
+$$bold(bad) $$
+$$thin(good)$$
+$$thin(说明：前面坏掉的那一截会原样吐回去，后面重新遇到合法起点时，解析器会继续正常解析。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Unclosed Prefix Then Good)%
+$$bold(unclosed $$thin(ok)$$ $$underline(good)$$
+%end$$
+$$bold(显示结果)$$
+$$bold(unclosed
+$$thin(ok)$$ $$underline(good)$$
+$$thin(说明：外层 $$code(bold)$$ 因为没闭合而退化，但里面已经成功闭合的合法标签仍然可以继续产出。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 8：Malformed close 和 Not closed 不是一回事)$$)$$
+很多系统会把所有失败都报成“没闭合”，但这其实很偷懒。这里会刻意区分：
+$$info(语义差异)%
+1. $$code(Not closed)$$ = 压根没找到合法 close
+2. $$code(Malformed close)$$ = 你其实写了一个“像 close 的东西”，但格式不合法
+3. 这两个错误给作者的修复提示完全不同，所以不该混在一起
+%end$$
+@end
+
+@text
+$$bold(最直白的理解方式)$$
+$$warning(对照看 | 如果文件里完全没有 close，那就是 $$code(not closed)$$；如果有一行长得很像 close，但前面多空格、后面挂垃圾尾巴，那就是 $$code(malformed close)$$。)$$
+$$thin(说明：这个区分看起来细，但对排查真实内容错误很有用。否则作者只会看到“没闭合”，却不知道其实是 close 行格式写脏了。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 9：支持 fallback，不代表你写得对)$$)$$
 很多系统遇到坏输入会直接炸掉，用户只能看到一地 500。这个 DSL 的设计思路不是“纵容错误”，而是：
 $$info(Fallback Philosophy)%
 1. 合法语义正常解析
