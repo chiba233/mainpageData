@@ -17,6 +17,56 @@ $$center($$bold(欢迎来到 DSL 错误处理博物馆。请不要喂 parser。)
 @end
 
 @text
+$$center($$bold(入馆前样板间：先看两段正常工作的 DSL)$$)$$
+先别急着看爆炸现场。为了方便对照，先给两段$$bold(语法完全正常)$$的例子，后面你就更容易看懂“哪里坏了”和“坏了以后怎么退化”。
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Healthy Inline Demo)%
+今天的心情是 $$bold(很好)$$，也可以点开 $$link(https://example.com | 这个链接)$$。
+%end$$
+$$bold(显示结果)$$
+今天的心情是 $$bold(很好)$$，也可以点开 $$link(https://example.com | 这个链接)$$。
+$$thin(说明：这是最普通的 inline 正常渲染，没有 fallback，也没有错误恢复。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Healthy Block Demo)%
+$$info(正常示例 | 这一块标题和正文都合法)$$
+%end$$
+$$bold(显示结果)$$
+$$info(正常示例 | 这一块标题和正文都合法)$$
+$$thin(说明：标题类标签在参数完整时，会直接按预期渲染，不涉及默认标题或退化逻辑。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Healthy Date + FromNow Demo)%
+发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+%end$$
+$$bold(显示结果)$$
+发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+$$thin(说明：像 $$code(date)$$ 和 $$code(fromNow)$$ 这种“吃固定参数数量”的标签，在参数合法时会直接产出格式化后的文本。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(text | Healthy Collapse Demo)%
+$$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也可以继续写 $$bold(加粗文本)$$。)$$
+%end$$
+$$bold(显示结果)$$
+$$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也可以继续写 $$bold(加粗文本)$$。)$$
+$$thin(说明：$$code(collapse)$$ 在 inline 形态下也是“标题 | 正文”的标准双参数结构，正文里还能继续嵌套合法标签。)$$
+@end
+
+@divider
+@end
+
+@text
 $$center($$bold(展厅 1：未知标签不会爆炸，只会乖乖去壳)$$)$$
 $$bold(源码)$$
 $$raw-code(text | Unknown Tag)%
@@ -268,11 +318,11 @@ $$thin(说明：外层 $$code(bold)$$ 因为没闭合而退化，但里面已经
 @text
 $$center($$bold(展厅 8：Malformed close 和 Not closed 不是一回事)$$)$$
 很多系统会把所有失败都报成“没闭合”，但这其实很偷懒。这里会刻意区分：
-$$info(语义差异)%
+$$info(语义差异)*
 1. $$code(Not closed)$$ = 压根没找到合法 close
 2. $$code(Malformed close)$$ = 你其实写了一个“像 close 的东西”，但格式不合法
 3. 这两个错误给作者的修复提示完全不同，所以不该混在一起
-%end$$
+*end$$
 @end
 
 @text
