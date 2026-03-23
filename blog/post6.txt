@@ -296,8 +296,7 @@ $$raw-code(text | Broken Then Good)%
 $$bold(bad) $$$$thin(good)$$
 %end$$
 $$bold(显示结果)$$
-$$bold(bad) $$
-$$thin(good)$$
+$$bold(bad) $$$$thin(good)$$
 $$thin(说明：前面坏掉的那一截会原样吐回去，后面重新遇到合法起点时，解析器会继续正常解析。)$$
 @end
 
@@ -307,8 +306,7 @@ $$raw-code(text | Unclosed Prefix Then Good)%
 $$bold(unclosed $$thin(ok)$$ $$underline(good)$$
 %end$$
 $$bold(显示结果)$$
-$$bold(unclosed
-$$thin(ok)$$ $$underline(good)$$
+$$bold(unclosed$$thin(ok)$$ $$underline(good)$$
 $$thin(说明：外层 $$code(bold)$$ 因为没闭合而退化，但里面已经成功闭合的合法标签仍然可以继续产出。)$$
 @end
 
