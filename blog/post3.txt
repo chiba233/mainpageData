@@ -49,7 +49,7 @@ $$center($$bold(为什么写这个项目？)$$)$$
 $$center($$bold(核心技术特点)$$)$$
 $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
 $$collapse(点我进查看语法示例)*
-$$raw-code(text | 示例)%
+$$raw-code(yumeDSL | 示例)%
 \@meta
 layout: common        # 布局模板
 time: 20260316        # 日期 (YYYYMMDD)
