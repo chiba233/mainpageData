@@ -49,31 +49,75 @@ $$center($$bold(为什么写这个项目？)$$)$$
 $$center($$bold(核心技术特点)$$)$$
 $$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
 $$collapse(点我进查看语法示例)*
-$$raw-code(yumeDSL | 示例)%
+$$raw-code(yumeDSL | 完整示例)%
 \@meta
-layout: common        # 布局模板
-time: 20260316        # 日期 (YYYYMMDD)
-lang: zh              # 语言 (zh/en/ja等)
-id: bangkok-life      # 唯一 ID (用于路由访问)
-pin: true             # 是否置顶
-title: 曼谷的午后喵     # 文章标题
+layout: common
+time: 20260316
+lang: zh
+id: bangkok-life
+pin: true
+title: 曼谷的午后喵
+summary: 这是一篇用于演示 yumeDSL 语法结构的文章
+cover: /data/blog/img/post3/home-laptop.webp
 \@end
 
- @image //注意不能加空格
-\\@image // \可以跳过该行不被format
-- desc: "I \"love\" Bangkok" //输出为I "love" Bangkok
-- desc: |
+\@text
+欢迎来到 $$bold(yumeDSL)$$ 示例。
+它支持 $$underline(嵌套 inline)$$、$$link(https://example.com | 链接)$$、$$thin(弱强调)$$ 与 $$code(code tag)$$。
+$$center($$bold(这是一个中心对齐的嵌套示例)$$)$$
+$$info(提示标题 | 这一段是 inline titled block，支持标题与正文分离)$$
+$$warning(注意事项)%
+这是一段 raw 形态的 warning。
+它会保留原始换行，并且支持像 \%end$$ 这样的转义闭合符。
+\%end$$
+$$collapse(点我展开查看块级正文)*
+这里是 block 形态的 collapse。
+你可以在正文里继续写 $$bold(嵌套 rich text)$$。
+也可以继续写 $$info(块内提示 | 支持继续解析 inline)$$。
+如果你想在 block 正文里直接写闭合符本身，可以写成 \*end$$，它不会提前闭合当前块。
+*end$$
+$$raw-code(json | demo.json | JSON 示例)%
+{
+  "hello": "world",
+  "nested": true
+}
+\%end$$
+\@end
+
+\@image
+- src: https://example.com/cover.webp
+  spareUrl: /data/blog/img/post3/home-laptop.webp
+  alt: 曼谷街景
+  desc: "I \"love\" Bangkok"
+
+- src: https://example.com/cat.webp
+  spareUrl: /data/blog/img/post3/blog-phone.webp
+  desc: |
     这是多行支持
     123
-- desc: 请注意这是完全缩进语言
+    这里仍然属于同一个字段
+
+- src: https://example.com/night.webp
+  desc: 请注意这是完全缩进语言
 \@end
+
+\@divider
+\@end
+
 \@text
 \@image                     -->   @image
 \\@image                    -->   \@image
 \\\@image                   -->   \\@image
+\@end                       -->   @end
+- inline-close: \)$$        -->   )$$
+- raw-close: \%end$$        -->   %end$$
+- block-close: \*end$$      -->   *end$$
 - desc: "I \"love\" BKK"     -->   I "love" BKK
 - path: "C:\\\\Users"       -->   C:\\Users
 - mixed: "\\\\\\" "         -->   \\"
+$$bold(很好)$$
+$$info(正常示例 | 这一块标题和正文都合法)$$
+$$link(https://github.com/chiba233/YumeLog | $$bold(链接正文也能继续嵌套)$$)$$
 \@end
 %end$$
 *end$$
