@@ -1,317 +1,351 @@
 @meta
 layout: common
-time: 20260306
+time: 20260323
 lang: zh
-id: yumeLog-intro
-title: YumeLog：我写的高颜值个性化主页系统
+id: dsl-fallback-museum
+title: DSL 错误处理博物馆：Fallback 机制实录
 @end
 
 @text
-最近我把自己的个人主页系统整理并开源了，项目名字叫做 $$bold(yumeLog)$$（ユメログ）。项目已经支持全页面SEO($$code(BASE: VITE-SSG)$$),每次编译你都可以将你所有博客文章生成专为robot提供的 $$code(index.html)$$ 。经过测试$$code(telegram)$$/$$code(QQ)$$/$$code(Google)$$都能正确识别并生成卡片。
-$$center($$bold(一个编译后连代码高亮js部分只有1M的极简主页/博客系统)$$)$$
-项目基于 $$bold(Vue3 + TypeScript + NaiveUI)$$开发，目标不是做传统博客，而是做一个$$underline(更像“个人数字名片”的网站)$$。GitHub 地址：$$link(https://github.com/chiba233/YumeLog | $$bold(点我查看项目仓库)$$)$$
-$$info(特性速览)%
-Static Architecture ---- 纯静态博客架构，极低成本无后端部署
-Vite SSG --------------- 自动预渲染 HTML / sitemap / robots，SEO 完备
-Custom DSL ------------- 拒绝传统臃肿 Markdown，自造轻量级 RICH-TEXT DSL
-Nested Rendering ------- 核心引擎支持无限嵌套语法解析
-Image Blocks ----------- 图像块完美支持主干与双轨容灾备用地址
-Responsive UI ---------- 全端响应式设计，深度适配移动端与毛玻璃交互
-Theme System ----------- 灵活的主题系统：背景壁纸 + 对应主题色
-Multi Language --------- 抛弃繁重框架，自制轻量级 i18n
-Anniversary Timeline --- 专属纪念日时间轴
-Photo Wall ------------- 专为晒猫与个人的照片墙展示
-Social Links ----------- 全域联系方式收纳
-Remote Data ------------ 完美支持从本地、CDN 或 HTTP 动态拉取 YAML
-Maimai Module ---------- MaiMai DX AQUA API 接入
-%end$$
-@end
-
-@image
-- src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-laptop.webp
-  spareUrl: /data/blog/img/post3/home-laptop.webp
-  desc: yumeLog Home 桌面端预览
-
-- src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/home-phone.webp
-  spareUrl: /data/blog/img/post3/home-phone.webp
-  desc: yumeLog Home 移动端预览
-@end
-
-@text
-$$center($$bold(为什么写这个项目？)$$)$$
-为什么不用通用解决方案捏：不符合我胃口，UI设计不喜欢。其次是比较重，大多需要后端，部署复杂，维护火葬场，我的vps就300G月流量要干很多事情。以及个人信息展示能力很弱。所以我干脆自己写了一：$$bold(一个完全静态的个人主页 + 博客)$$。没有后端，没有数据库，只需要托管静态文件即可运行。担心国内被劫持访问不了？没关系支持热备。
+本文并非基础的 DSL 语法教程，而是为您展示一个特殊的场景：$$underline(当代码出现各种不规范或错误的语法时，这套解析器将如何进行优雅降级（Fallback）。)$$
+本文的结构统一为：
+$$info(阅读说明 | 上半块是原始源码，下半块是页面实际渲染的结果。也就是说，您看到的“显示结果”就是 Fallback 触发后，读者真正会看到的内容。)$$
+$$center($$bold(欢迎来到 DSL 错误处理博物馆。)$$)$$
 @end
 
 @divider
 @end
 
 @text
-$$center($$bold(核心技术特点)$$)$$
-$$bold(自研文本解析引擎)$$：项目没有使用 Markdown，而是自己写了一套轻量级解析器。支持：$$code(bold  underline  strike  center  link  thin code info warning )$$。而且支持 $$bold(无限嵌套)$$。你可以使用$$code(- type: "divider")$$为文本进行分段，也可以用$$code(- type: "image")$$为文章添加图片和描述。
-$$collapse(点我进查看语法示例)*
-$$raw-code(yumeDSL | 完整示例)%
-\@meta
-layout: common
-time: 20260316
-lang: zh
-id: bangkok-life
-pin: true
-title: 曼谷的午后喵
-summary: 这是一篇用于演示 yumeDSL 语法结构的文章
-cover: /data/blog/img/post3/home-laptop.webp
-\@end
+$$center($$bold(入馆前样板间：正常渲染对照组)$$)$$
+在进入故障展厅前，我们先看几段$$bold(语法完全正常)$$的示例。这有助于在后续对比中更容易看清“哪里出了问题”以及“出错后的退化形态”。
+@end
 
-\@text
-欢迎来到 $$bold(yumeDSL)$$ 示例。
-它支持 $$underline(嵌套 inline)$$、$$link(https://example.com | 链接)$$、$$thin(弱强调)$$ 与 $$code(code tag)$$。
-$$center($$bold(这是一个中心对齐的嵌套示例)$$)$$
-$$info(提示标题 | 这一段是 inline titled block，支持标题与正文分离)$$
-$$warning(注意事项)%
-这是一段 raw 形态的 warning。
-它会保留原始换行，并且支持像 \%end$$ 这样的转义闭合符。
-\%end$$
-$$collapse(点我展开查看块级正文)*
-这里是 block 形态的 collapse。
-你可以在正文里继续写 $$bold(嵌套 rich text)$$。
-也可以继续写 $$info(块内提示 | 支持继续解析 inline)$$。
-如果你想在 block 正文里直接写闭合符本身，可以写成 \*end$$，它不会提前闭合当前块。
-*end$$
-$$raw-code(json | demo.json | JSON 示例)%
-{
-  "hello": "world",
-  "nested": true
-}
-\%end$$
-\@end
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Healthy Inline Demo)%
+今天的心情是 $$bold(很好)$$，也可以点开 $$link(https://example.com | 这个链接)$$。
+%end$$
+$$bold(显示结果)$$
+今天的心情是 $$bold(很好)$$，也可以点开 $$link(https://example.com | 这个链接)$$。
+$$thin(说明：这是基础的行内正常渲染，不涉及任何 Fallback 或错误恢复机制。)$$
+@end
 
-\@image
-- src: https://example.com/cover.webp
-  spareUrl: /data/blog/img/post3/home-laptop.webp
-  alt: 曼谷街景
-  desc: "I \"love\" Bangkok"
-
-- src: https://example.com/cat.webp
-  spareUrl: /data/blog/img/post3/blog-phone.webp
-  desc: |
-    这是多行支持
-    123
-    这里仍然属于同一个字段
-
-- src: https://example.com/night.webp
-  desc: 请注意这是完全缩进语言
-\@end
-
-\@divider
-\@end
-
-\@text
-\@image                     -->   @image
-\\@image                    -->   \@image
-\\\@image                   -->   \\@image
-\@end                       -->   @end
-- inline-close: \)$$        -->   )$$
-- raw-close: \%end$$        -->   %end$$
-- block-close: \*end$$      -->   *end$$
-- desc: "I \"love\" BKK"     -->   I "love" BKK
-- path: "C:\\\\Users"       -->   C:\\Users
-- mixed: "\\\\\\" "         -->   \\"
-$$bold(很好)$$
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Healthy Block Demo)%
 $$info(正常示例 | 这一块标题和正文都合法)$$
-$$link(https://github.com/chiba233/YumeLog | $$bold(链接正文也能继续嵌套)$$)$$
-\@end
 %end$$
-*end$$
-@end
-
-@image
-- src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-laptop.webp
-  spareUrl: /data/blog/img/post3/blog-laptop.webp
-  desc: yumeLog Blog 桌面端预览
-- src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/blog-phone.webp
-  spareUrl: /data/blog/img/post3/blog-phone.webp
-  desc: yumeLog Blog 移动端预览
+$$bold(显示结果)$$
+$$info(正常示例 | 这一块标题和正文都合法)$$
+$$thin(说明：块级标签在参数完整时，会直接按预期渲染。)$$
 @end
 
 @text
-$$bold(YAML 内容驱动)$$：博客文章全部使用 YAML 编写，例如：$$code(id / time / title / blocks)$$，每个文章由多个 $$bold(block)$$组成。支持：$$underline(文本块  图片块  多图片展示)$$。因为是纯数据驱动，所以：$$center($$bold(不需要数据库，也不需要后端)$$)$$
+$$bold(源码)$$
+$$raw-code(yumeDSL | Healthy Date + FromNow Demo)%
+发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+%end$$
+$$bold(显示结果)$$
+发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+$$thin(说明：对于要求“固定参数数量”的标签，只要参数合法，即会直接产出格式化后的文本。)$$
 @end
 
 @text
-$$bold(完全静态架构)$$：所有数据都来自仓库文件：$$code(YAML  JSON  图片资源)$$，所以部署非常简单：$$code(GitHub Pages Cloudflare Pages Vercel Nginx)$$都可以直接部署。
-$$collapse(点我进查看url配置示例)*
-$$raw-code(json | url配置示例)%
-{
-  "blog": {
-    "listUrl": "https://YOUR-LIST_URL",
-    "url": "https://YOUR_URL",
-    "spareUrl": "/YOUR_SPARE-URL",
-    "spareListUrl": "/YOUR_SPARE_LIST_URL"
-  },
-  "main": {
-    "url": "这里主要是你个人简介那堆东西的地址，就是在/public/data/main里的那堆东西，你当然也可以远程，但是丢服务器就行了",
-    "spareUrl": "/YOUR_SPARE-URL",
-    "listUrl": "/YOUR_SPARE_LIST_URL"
-  }
-}
+$$bold(源码)$$
+$$raw-code(yumeDSL | Healthy Collapse Demo)%
+$$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也可以继续写 $$bold(加粗文本)$$。)$$
 %end$$
-*end$$
-@end
-
-@text
-$$bold(个人主页模块)$$:除了博客系统之外，yumeLog 还包含完整的个人展示模块：$$underline(主题系统 多语言支持 纪念日时间线 友链展示 联系方式 照片墙)$$,本质上它更像是：$$center($$bold(一个完整的个人网站框架)$$)$$
-$$bold(全融合的主题)$$: $$code(yumelog)$$本身会使用你在$$code(json)$$内配置的主题色来生成: 浅色及加深色供不同区域使用以增强美观度或可读性。
-$$bold(友链展示说明)$$：$$code(socialLinks)$$内每个都可以删掉，删掉后ui会自动取消渲染该内容。$$code(platforms)$$里面正常情况下你不需要动。
-$$collapse(点我进查看友链配置示例)*
-$$raw-code(json | 友链展示)%
-{
-  "socialLinks": {
-    "twitter": "https://x.com/HoshinoYumeka2",
-    "tron": "https://tronscan.org/#/address/TVB16jV3Jx2HTn9U1KjyBSN1u9MQ29FArs",
-    "areth": "https://arbiscan.io/address/0x3eb232c80307961795C1310374368834c25A41e6",
-    "eth": "https://etherscan.io/address/0x3eb232c80307961795C1310374368834c25A41e6",
-    "polygon": "https://polygonscan.com/address/0x3eb232c80307961795C1310374368834c25A41e6",
-    "bsc": "https://bscscan.com/address/0x3eb232c80307961795C1310374368834c25A41e6",
-    "solana": "https://solscan.io/account/CwmEwePc5TxyQG57e3f4WBufTvGFv264KAGfVRoSZd7V",
-    "telegram": "https://t.me/chiba2333",
-    "email": "mailto:qwq@qwwq@org",
-    "github": "https://github.com/chiba233"
-  },
-  "platforms": [
-    {
-      "id": "telegram",
-      "label": "Telegram",
-      "type": "link"
-    },
-    {
-      "id": "wechat",
-      "label": "WeChat",
-      "type": "modal"
-    },
-    {
-      "id": "line",
-      "label": "LINE",
-      "type": "modal"
-    },
-    {
-      "id": "email",
-      "label": "E-Mail",
-      "type": "link"
-    },
-    {
-      "id": "twitter",
-      "label": "Twitter",
-      "type": "link"
-    },
-    {
-      "id": "github",
-      "label": "GitHub",
-      "type": "link"
-    },
-    {
-      "id": "tron",
-      "label": "Tron",
-      "type": "link"
-    },
-    {
-      "id": "eth",
-      "label": "Ethereum",
-      "type": "link"
-    },
-    {
-      "id": "areth",
-      "label": "Arbitrum",
-      "type": "link"
-    },
-    {
-      "id": "bsc",
-      "label": "BSC-BNB",
-      "type": "link"
-    },
-    {
-      "id": "polygon",
-      "label": "Polygon",
-      "type": "link"
-    },
-    {
-      "id": "solana",
-      "label": "Solana",
-      "type": "link"
-    },
-    {
-      "id": "maimai",
-      "label": "maimai",
-      "type": "func"
-    },
-    {
-      "id": "cat",
-      "label": "cat",
-      "type": "func"
-    }
-  ]
-}
-%end$$
-*end$$
-$$bold(From Now Time 模块)$$:
-$$collapse(点我进查看From Now Time 模块配置示例)*
-$$raw-code(yaml | fromNow)%
-fromNow: #起始块不能删
-  - time: "20161225" #时间
-    photo: "" #预留 还没做
-    names:
-      - type: "zh"
-        content: "你好"
-      - type: "en"
-        content: "Hello!"
-      - type: "ja"
-        content: "天気がいいから、散歩しましょう"
-      - type: "other"
-        content: "Hello!"
-        #请注意，自己的东西都得自己翻译
-%end$$
-*end$$
-$$bold(list.json配置)$$: 请注意，这必须是数组!
-$$collapse(点我进查看list.json配置示例)*
-$$raw-code(json | list.json)%
-[
-  "post1.yaml",
-  "post2.yaml",
-  "post3.yaml"
-]
-%end$$
-*end$$
-@end
-
-@image
-- src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/memory.webp"
-  spareUrl: "/data/blog/img/post3/memory.webp"
-  desc: "纪念日预览"
-- src: "https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/neko.webp"
-  spareUrl: "/data/blog/img/post3/neko.webp"
-  desc: "照片展示墙预览"
-@end
-
-@text
-$$bold(Maimai 玩家模块)$$：如果你是WMC，这个功能会非常有意思。项目原生支持：$$bold(Maimai DX 成绩展示)$$可以在主页直接展示你的：$$code(段位 Rating 成绩列表)$$，数据来自 Aqua 服务器 API。
-$$collapse(点我进查看maimai配置文件示例)*
-$$raw-code(json | maimai配置文件)%
-{
-  "baseUrl": "aqua.server.com",
-  "aimeID": "1145141919810"
-}
-%end$$
-*end$$
-@end
-
-@image
-- src: https://raw.githubusercontent.com/chiba233/mainpageData/refs/heads/master/blog/img/post3/maimai.webp
-  spareUrl: /data/blog/img/post3/maimai.webp
-  desc: "maimai成绩展示预览"
+$$bold(显示结果)$$
+$$collapse(点我展开看看 | 这里是折叠区里的正常正文，里面也可以继续写 $$bold(加粗文本)$$。)$$
+$$thin(说明：即便在内联形态下，只要语法合法，正文内依旧可以继续嵌套其他标签。)$$
 @end
 
 @divider
 @end
 
 @text
-如果你也想搭建一个：$$bold(极简但高颜值的个人主页)$$，可以看看这个项目：$$link(https://github.com/chiba233/YumeLog | $$bold(GitHub 仓库地址)$$)$$，如果觉得有意思的话。
-$$strike($$center($$bold(欢迎点个 Star ⭐)$$)$$)$$
+$$center($$bold(展厅 1：遇到未知标签不会崩溃，只会安静“去壳”)$$)$$
+$$bold(源码)$$
+$$raw-code(yumeDSL | Unknown Tag)%
+$$unknown(hello world)$$
+%end$$
+$$bold(显示结果)$$
+hello world
+$$thin(说明：未知标签不会作为正式语义节点被渲染，但解析器会保留其内部的普通文本。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Unknown Tag + Nested Known Tag)%
+$$unknown(hello $$bold(world)$$ and $$underline(stars)$$)$$
+%end$$
+$$bold(显示结果)$$
+hello $$bold(world)$$ and $$underline(stars)$$
+$$thin(说明：外层未知的标签壳被剥离，但内部嵌套的合法标签依然会正常工作。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 2：行内标签未闭合，直接退化为普通文本)$$)$$
+$$bold(源码)$$
+$$raw-code(yumeDSL | Inline Not Closed)%
+$$bold(hello
+%end$$
+$$bold(显示结果)$$
+$$bold(hello
+@end
+
+@text
+$$thin(说明：因为没有检测到闭合符 \)，解析器不会强行补全，而是将这段代码作为普通文本直接输出。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Inline Not Closed With Params)%
+$$link(https://example.com | Example
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com | Example
+$$thin(说明：发生退化时，解析器会尽量保留原始的开头片段，不会吞噬已输入的参数。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Inline Opened, Nested, Then EOF)%
+$$link(https://example.com | before $$bold(ok)$$ tail
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com | before $$bold(ok)$$ tail
+$$thin(说明：外层标签因未闭合而退化，但内部已经成功闭合的标签内容会被完整保留并拼回最终文本。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 3：块级标签未闭合，整段原样返回)$$)$$
+$$bold(源码)$$
+$$raw-code(yumeDSL | Raw Not Closed)%
+$$raw-code(yumeDSL | cursed demo)%
+const a = 1
+const b = 2
+%end$$
+$$bold(显示结果)$$
+$$raw-code(yumeDSL | cursed demo)%
+const a = 1
+const b = 2
+$$thin(说明：缺少真正的结束行，整段内容将放弃解析，退化为普通文本。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Block Not Closed)%
+$$collapse(点我展开)*
+第一层
+第二层
+%end$$
+$$bold(显示结果)$$
+$$collapse(点我展开)*
+第一层
+第二层
+$$thin(说明：Block 同理，如果没有找到正确的 $$code(*end$$)$$，就会统一作为普通文本处理。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 4：格式不规范的闭合（Malformed Close）)$$)$$
+这是近期专门收紧的一项逻辑：$$bold(并非所有的“没闭合”都该被粗暴归结为 Not closed)$$。如果您确实写了结束符，但出现了错误的缩进或携带了多余的尾随字符，系统会为其赋予独立的语义提示。
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Block Close With Indent)%
+$$info(标题)*
+hello
+  *end$$
+%end$$
+$$bold(显示结果)$$
+$$info(标题)*
+hello
+  *end$$
+$$thin(说明：这不是一个合法的闭合行，因为前面多出了空格。解析器会精准上报 $$code(Malformed block close)$$，而不是泛泛地提示未闭合。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Block Close With Trailing)%
+$$info(标题)*
+hello
+*end$$ extra cheese
+%end$$
+$$bold(显示结果)$$
+$$info(标题)*
+hello
+*end$$ extra cheese
+$$thin(说明：闭合符必须独占整行。后面跟着其他字符同样会被判定为格式错误。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Raw Close With Indent)%
+$$raw-code(yumeDSL | title)%
+hello
+  %end$$
+%end$$
+$$bold(显示结果)$$
+$$raw-code(yumeDSL | title)%
+hello
+  %end$$
+$$thin(说明：Raw 标签的闭合逻辑也是一致的，外观相似并不等同于语法合法。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Raw Close With Trailing)%
+$$raw-code(yumeDSL | title)%
+hello
+%end$$ hahaha
+%end$$
+$$bold(显示结果)$$
+$$raw-code(yumeDSL | title)%
+hello
+%end$$ hahaha
+$$thin(说明：只要该行不完全等于 $$code(%end$$)$$，就会触发 Malformed close。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 5：意外的孤立闭合符不会阻断全局)$$)$$
+$$bold(源码)$$
+$$raw-code(yumeDSL | Unexpected Close)%
+前面什么都没开
+)$$
+后面继续活着
+%end$$
+$$bold(显示结果)$$
+前面什么都没开
+)$$
+后面继续活着
+$$thin(说明：孤立的右括号不会导致整篇文章解析失败，它会被当作普通字符保留，解析器会继续平稳处理后续内容。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 6：转义符拥有最高优先级)$$)$$
+这部分展示的是：$$bold(只要明确使用了转义符，解析器就会严格按“字面字符”处理，不再将其误判为结束符或分隔符。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Escaped Right Parenthesis)%
+$$bold(这里有一个右括号 \))$$
+%end$$
+$$bold(显示结果)$$
+$$bold(这里有一个右括号 \))$$
+$$thin(说明：遇到转义斜杠后，括号只作为普通文本渲染，不再承担闭合标签的功能。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Escaped Pipe)%
+$$link(https://example.com \| still text)$$
+%end$$
+$$bold(显示结果)$$
+$$link(https://example.com \| still text)$$
+$$thin(说明：竖线被转义后，取消了其“参数分隔”的语义，成为纯文本的一部分。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Escaped Raw Close)%
+$$raw-code(yumeDSL | demo)%
+\\%end$$
+真的结束要等下一行
+\%end$$
+%end$$
+$$bold(显示结果)$$
+$$raw-code(yumeDSL | demo)%
+\%end$$
+真的结束要等下一行
+%end$$
+$$thin(说明：带有转义符的 $$code(\%end$$)$$ 仅为正文内容，真正的解析结束取决于后续那行完整且干净的 $$code(%end$$)$$。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 7：局部错误后的自我恢复机制)$$)$$
+许多解析器在遇到中间段落错误时会直接中断，导致后续内容一并作废。但这里的策略是：$$bold(在能恢复的地方继续恢复，避免因局部错误拖垮整段内容。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Broken Then Good)%
+$$bold(bad) $$$$thin(good)$$
+%end$$
+$$bold(显示结果)$$
+$$bold(bad) $$$$thin(good)$$
+$$thin(说明：前面失效的部分会原样输出，一旦后续遇到合法的语法起点，解析器会立即恢复正常工作。)$$
+@end
+
+@text
+$$bold(源码)$$
+$$raw-code(yumeDSL | Unclosed Prefix Then Good)%
+$$bold(unclosed $$thin(ok)$$ $$underline(good)$$
+%end$$
+$$bold(显示结果)$$
+$$bold(unclosed$$thin(ok)$$ $$underline(good)$$
+$$thin(说明：外层标签因未闭合而失效，但内部已经成功闭合的合法标签依然会正常产出结果。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(展厅 8：精准区分 Malformed close 与 Not closed)$$)$$
+很多系统会将所有解析失败统称为“未闭合”，但这不利于精准排查问题。我们对此进行了严格区分：
+$$info(语义差异)*
+1. $$code(Not closed)$$ = 整体段落中完全没有找到合法的结束符。
+2. $$code(Malformed close)$$ = 存在结束符，但格式不规范（如多余的缩进或尾随字符）。
+3. 区分两者的目的是为了给内容创作者提供更准确的修复指引。
+*end$$
+@end
+
+@text
+$$bold(直观理解：)$$
+$$warning(排查指南 | 如果文档中确实没写 close，那就是 $$code(not closed)$$；如果写了，但多敲了空格或者加了其他字符，那就是 $$code(malformed close)$$。)$$
+$$thin(说明：这项区分对于排查长文档的排版错误非常有效，能帮助作者迅速定位是“漏写”还是“写错”。)$$
+@end
+
+@divider
+@end
+
+@text
+$$center($$bold(结语：支持 Fallback 不代表纵容错误)$$)$$
+面对异常输入，许多系统的做法是直接报错阻断。而这套 DSL 的设计哲学并非为了纵容语法错误，而是确保：
+$$info(Fallback 核心原则)%
+1. 合法语义，完美解析。
+2. 非法语义，最大程度保留原始文本。
+3. 具备局部错误恢复能力，不引发全局崩溃。
+4. 提供精准、具体的错误类型提示，不推诿责任。
+%end$$
+@end
+
+@text
+$$bold(最终呈现效果：)$$
+$$warning(对创作者 | 运行时会精准提示：unknown fallback / inline not closed / raw not closed / block not closed / malformed raw close / malformed block close / unexpected close 等具体语义。)$$
+$$info(对阅读者 | 页面不会因此崩溃，绝大部分异常输入都会被平稳地退化呈现。)$$
+$$center($$bold(一句话总结：这套系统的底线是，即使面临不规范的输入，也要尽可能体面地维持运转并呈现内容。)$$)$$
 @end
