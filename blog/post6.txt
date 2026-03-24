@@ -44,12 +44,18 @@ $$thin(说明：块级标签在参数完整时，会直接按预期渲染。)$$
 @text
 $$bold(源码)$$
 $$raw-code(yumeDSL | Healthy Date + FromNow Demo)%
-发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
-相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+发布日期：$$date(2026-03-23|YYYY/MM/DD)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z)$$
+完整时间: $$date(2026-03-23|LL - dddd)$$
+限制语言: $$date(2026-03-23|LL - dddd | zh)$$
+佛历时间: $$date(2026-03-23|BBBB/MM/DD)$$
 %end$$
 $$bold(显示结果)$$
-发布日期：$$date(2026-03-23|YYYY/MM/DD|zh)$$
-相对时间：$$fromNow(2026-03-23T00:00:00.000Z|zh)$$
+发布日期：$$date(2026-03-23|YYYY/MM/DD)$$
+相对时间：$$fromNow(2026-03-23T00:00:00.000Z)$$
+完整时间: $$date(2026-03-23|LL - dddd)$$
+限制语言: $$date(2026-03-23|LL - dddd | zh)$$
+佛历时间: $$date(2026-03-23|BBBB/MM/DD)$$
 $$thin(说明：对于要求“固定参数数量”的标签，只要参数合法，即会直接产出格式化后的文本。)$$
 @end
 
