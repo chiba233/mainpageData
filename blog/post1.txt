@@ -3,7 +3,7 @@ layout: common
 time: 20260106
 lang: zh
 id: kunpeng-grub-fix
-title: 解决鲲鹏920升级至debian12后Grub Panic
+title: 解决鲲鹏920升级至debian13后Grub Panic
 @end
 
 @text
@@ -61,6 +61,5 @@ $$raw-code(bash | 示例)%
 # 彻底禁用apt更新软件包后添加该文件
 sudo dpkg-divert --add --rename --divert /etc/grub.d/25_bli.disabled /etc/grub.d/25_bli
 %end$$
-
 $$bold(添加一个占位文件到原本的位置,随后执行 $$code(update-grub)$$ 重启即可解决问题。)$$
 @end
